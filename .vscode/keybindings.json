@@ -1,0 +1,7 @@
+[
+    {
+        "key": "ctrl+alt+c",
+        "command": "workbench.files.action.collapseExplorerFolders",
+        "when": "explorerViewletVisible"
+    }
+]

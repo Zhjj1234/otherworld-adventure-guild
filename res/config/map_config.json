@@ -1,0 +1,20 @@
+{
+  "atlas_info": [
+    {
+      "source_id": 1,
+      "tile_infos": [
+        {
+          "atlas_coords": {
+            "x": 0,
+            "y": 0
+          },
+          "layer_name": "move",
+          "layer_position": 0,
+          "custom_data": {
+            "is_passable": true
+          }
+        }
+      ]
+    }
+  ]
+}

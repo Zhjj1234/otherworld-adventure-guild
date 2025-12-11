@@ -1,0 +1,13 @@
+{
+  "level_system_config": {
+	"max_level": 25,
+	"base_exp": 100,
+	"exp_growth_rate": 1.18,
+	"skill_upgrade_rule": {
+	  "upgrade_times_per_level": 1,
+	  "max_upgrade_times": 24,
+	  "random_skill_count": 3,
+	  "career_skill_weight": 0.8
+	}
+  }
+}

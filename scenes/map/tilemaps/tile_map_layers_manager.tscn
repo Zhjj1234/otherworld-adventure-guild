@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://c80ivon2t5wk5"]
+
+[ext_resource type="Script" uid="uid://dto1slneo1paj" path="res://scenes/map/scripts/tile_map_layers_manager.gd" id="1_45nxo"]
+[ext_resource type="PackedScene" uid="uid://beq5wks4mnnj7" path="res://scenes/map/tilemaps/ground_layer.tscn" id="2_5sclw"]
+
+[node name="TileMapLayersManager" type="Node2D"]
+script = ExtResource("1_45nxo")
+
+[node name="GroundLayer" parent="." instance=ExtResource("2_5sclw")]

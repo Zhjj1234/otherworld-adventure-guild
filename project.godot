@@ -1,0 +1,31 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="TestLoad"
+run/main_scene="uid://cp1pbma5xfhpf"
+config/features=PackedStringArray("4.5", "Forward Plus")
+config/icon="res://assets/images/icon.svg"
+
+[autoload]
+
+GameDataManager="*res://scenes/core/game_data_manager.gd"
+SaveAndLoadManager="*res://scenes/core/save_and_load_manager.gd"
+GridManager="*res://scenes/core/grid_manager.gd"
+
+[display]
+
+window/size/viewport_width=960
+window/size/viewport_height=540
+window/size/window_width_override=960
+window/size/window_height_override=540
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"

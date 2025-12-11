@@ -1,0 +1,43 @@
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.git/**": true,
+        "**/.vs": true,
+        "**/.mono": true,
+        "**/bin": true,
+        "**/obj": true,
+        "**/.import": true,
+        "**/.import/**": true,
+        "**/*.import": true,
+        "**/*.log": true,
+    "**/*.tmp": true,
+    "**/*.gd.uid": true,
+        "**/icon.svg.import": true,
+        "**/project.godot.import": true,
+        "**/project.godot~": true,
+        "**/export_presets.cfg": true
+    },
+    "search.exclude": {
+        "**/.git": true,
+        "**/.git/**": true,
+        "**/.vs": true,
+        "**/.mono": true,
+        "**/bin": true,
+        "**/obj": true,
+        "**/.import": true,
+        "**/.import/**": true,
+        "**/*.import": true,
+        "**/*.gd.uid": true
+    },
+    "files.watcherExclude": {
+        "**/.import/**": true,
+        "**/bin/**": true,
+        "**/obj/**": true
+        ,"**/*.gd.uid": true
+    },
+        "explorer.compactFolders": true,
+        "explorer.autoReveal": false,
+        "explorer.restoreViewState": false,
+        "explorer.openEditors.visible": 1,
+    "godotTools.editorPath.godot4": "d:\\key_app\\godot4.5\\app\\Godot_v4.5.1-stable_win64.exe"
+}
