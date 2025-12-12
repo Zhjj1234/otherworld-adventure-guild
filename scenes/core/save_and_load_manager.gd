@@ -109,7 +109,10 @@ func load_res_async(var_name: String, path: String) -> void:
 		var resource = ResourceLoader.load_threaded_get(path)
 		_game_datas["res"][path]["data"] = resource
 		#* 直接挂到全局 GameDataManager，外部可以直接用
-		GameDataManager._game_data[var_name] = resource
+		if resource is JSON:
+			GameDataManager._game_data[var_name] = resource.data
+		else:
+			GameDataManager._game_data[var_name] = resource
 	
 	#* 无论成功还是失败，都要 +1 计数，结束这个任务
 	_game_datas["count"] += 1

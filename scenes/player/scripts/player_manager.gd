@@ -34,7 +34,7 @@ var _final_position: Vector2i = Vector2i.ZERO
 #* 初始化玩家管理器
 #* 获取玩家初始数据并设置初始状态
 func init() -> void:
-	_player_data = GameDataManager.get_player_data("player_global_data")
+	_player_data = GameDataManager.get_game_def_data_child("player_global_data", TYPE_DICTIONARY)
 	_current_position = Vector2(_player_data["current_position"]["x"], _player_data["current_position"]["y"])
 	_target_position = _current_position
 	_final_position = _current_position

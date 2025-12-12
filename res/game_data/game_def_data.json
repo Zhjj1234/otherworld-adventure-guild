@@ -1,26 +1,11 @@
 {
   "player_global_data": {
-    "initial_position": { "x": 0, "y": 0 },
-    "current_position": { "x": 0, "y": 0 },
-    "game_progress": "chapter_1_complete",
-    "inventory": []
+	"initial_position": { "x": 0, "y": 0 },
+	"current_position": { "x": 0, "y": 0 },
+	"game_progress": "chapter_1_complete",
+	"inventory": []
   },
   "team_characters": [
-    {
-      "char_id": 1,
-      "name": "主角",
-      "is_main": true,
-      "job_id": 1,
-      "current_level": 1,
-      "current_exp": 0,
-      "remaining_upgrade_times": 0,
-      "skill_status": {
-        "initial_skill": 101,
-        "selected_skills": [101],
-        "skill_grades": { "101": "normal" }
-      },
-      "current_hp": 50,
-      "max_hp": 50
-    }
+	
   ]
 }

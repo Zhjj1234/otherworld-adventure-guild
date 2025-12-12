@@ -41,7 +41,7 @@ func _set_path_finder_func():
 #* 设置所有瓦片的自定义数据
 #* 从游戏数据管理器获取图集信息，并设置到瓦片集中
 func _set_tile_datas():
-	var atlas_infos = GameDataManager.get_map_data("atlas_info")
+	var atlas_infos = GameDataManager.get_map_config_child("atlas_info", TYPE_ARRAY) as Array
 	for atlas in atlas_infos:
 		var source_id = atlas["source_id"]
 		var atlas_info = atlas["tile_infos"]

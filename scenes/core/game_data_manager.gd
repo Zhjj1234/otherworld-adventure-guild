@@ -3,41 +3,39 @@ extends Node
 #* 游戏数据管理器 - 负责处理游戏配置数据的获取和管理
 var _game_data: Dictionary = {}
 
-#? 获取地图图集信息
-#! 返回值可能是空数组，调用方需要注意处理
-func get_map_data(key: String) -> Array:
-	var atlas_info: Array = get_game_data_by_key("map_config").get(key)
-	#!! 检查atlas_info字段是否存在且为数组类型
-	if not atlas_info is Array:
-		push_warning("atlas_info 字段格式错误")
-		return []
-	
-	#* 直接返回目标数组（需深拷贝则改为 atlas_info.duplicate(true)）
-	return atlas_info
+# ==================== 业务专属获取接口（对外暴露，语义清晰） ====================
+#* 获取地图配置（字典类型）
+func get_map_config() -> Dictionary:
+	return TypeUtil.get_valid_dict(_game_data.get("map_config", {}), "map_config")
 
-#? 获取玩家数据
-#! 返回值可能是空字典，调用方需要注意处理
-func get_player_data(key: String) -> Dictionary:
-	var player_data: Dictionary = get_game_data_by_key("game_def_data").get(key) as Dictionary
-	#!! 检查player_data是否为有效字典
-	if not player_data is Dictionary:
-		push_warning("缺失 player 字段或格式错误")
-		return {}
-	
-	return player_data
+#* 获取等级系统配置（字典类型）
+func get_level_system_config() -> Dictionary:
+	return TypeUtil.get_valid_dict(_game_data.get("level_system_config", {}), "level_system_config")
 
-#? 获取默认配置数据
-#! 返回值可能是空字典，调用方需要注意处理
-func get_game_data_by_key(key: String) -> Dictionary:
-	#* 安全校验：确保游戏数据和嵌套字段格式正确
-	if not _game_data is Dictionary:
-		push_warning("游戏数据格式错误")
-		return {}
-	
-	var def_data: JSON = _game_data.get(key) as JSON
-	#!! 检查def字段是否存在且为JSON对象
-	if not def_data is JSON:
-		push_warning("缺失 def 字段或格式错误")
-		return {}
-	
-	return def_data.data
+#* 获取技能配置（数组类型）
+func get_skill_config() -> Array:
+	return TypeUtil.get_valid_array(_game_data.get("skill_config", []), "skill_config")
+
+#* 获取职业配置（数组类型）
+func get_job_config() -> Array:
+	return TypeUtil.get_valid_array(_game_data.get("job_config", []), "job_config")
+
+#* 获取敌人配置（数组类型）
+func get_enemy_config() -> Array:
+	return TypeUtil.get_valid_array(_game_data.get("enemy_config", []), "enemy_config")
+
+#* 获取游戏默认配置（字典类型）
+func get_game_def_data() -> Dictionary:
+	return TypeUtil.get_valid_dict(_game_data.get("game_def_data", {}), "game_def_data")
+
+#* 新增：对外暴露的深层字段快捷获取接口
+func get_map_config_child(child_key: String, expected_type: int) -> Variant:
+	return TypeUtil.get_dict_child_from_config(_game_data, "map_config", child_key, expected_type)
+
+#* 新增：对外暴露的深层字段快捷获取接口
+func get_game_def_data_child(child_key: String, expected_type: int) -> Variant:
+	return TypeUtil.get_dict_child_from_config(_game_data, "game_def_data", child_key, expected_type)
+
+#* 新增：对外暴露的深层字段快捷获取接口
+func get_level_system_config_child(child_key: String, expected_type: int) -> Variant:
+	return TypeUtil.get_dict_child_from_config(_game_data, "level_system_config", child_key, expected_type)
