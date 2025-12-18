@@ -13,7 +13,7 @@ func _on_new_game_pressed() -> void:
 	label.text = "0%"
 	label.show()
 	
-	## 开始异步加载所有资源，await 保证这里会等到全部加载完毕
+	#* 开始异步加载所有资源，await 保证这里会等到全部加载完毕
 	await SaveAndLoadManager._load_all(
 		{
 			"map_config": "res://res/config/map_config.json",

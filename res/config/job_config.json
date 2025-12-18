@@ -1,26 +1,26 @@
 [
   {
-    "job_id": 1,
-    "name": "盗贼",
-    "base_attr": { "attack": 10, "defense": 5, "speed": 8, "hp": 80, "mp": 50 },
-    "skill_pool": []
+	"job_id": 1,
+	"name": "盗贼",
+	"base_attr": { "attack": 10, "defense": 5, "speed": 8, "hp": 80, "mp": 50 },
+	"skill_pool": []
   },
   {
-    "job_id": 2,
-    "name": "哨兵",
-    "base_attr": { "attack": 8, "defense": 7, "speed": 6, "hp": 100, "mp": 40 },
-    "skill_pool": []
+	"job_id": 2,
+	"name": "哨兵",
+	"base_attr": { "attack": 8, "defense": 7, "speed": 6, "hp": 100, "mp": 40 },
+	"skill_pool": []
   },
   {
-    "job_id": 3,
-    "name": "商人",
-    "base_attr": { "attack": 6, "defense": 6, "speed": 7, "hp": 90, "mp": 60 },
-    "skill_pool": []
+	"job_id": 3,
+	"name": "商人",
+	"base_attr": { "attack": 6, "defense": 6, "speed": 7, "hp": 90, "mp": 60 },
+	"skill_pool": []
   },
   {
-    "job_id": 4,
-    "name": "探险家",
-    "base_attr": { "attack": 7, "defense": 6, "speed": 9, "hp": 95, "mp": 55 },
-    "skill_pool": []
+	"job_id": 4,
+	"name": "探险家",
+	"base_attr": { "attack": 7, "defense": 6, "speed": 9, "hp": 95, "mp": 55 },
+	"skill_pool": []
   }
 ]

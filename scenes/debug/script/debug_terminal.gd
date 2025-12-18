@@ -54,9 +54,13 @@ func _on_command_submitted(command: String):
 	
 	print(cmd, args, game_manager)
 	
-	# #* 调用 GameManager 的命令处理方法
-	# if game_manager.has_method("execute_debug_command"):
-	# 	game_manager.execute_debug_command(cmd, args)
+	#* 调用 GameManager 的命令处理方法
+	if game_manager.has_method("execute_debug_command"):
+		game_manager.execute_debug_command(cmd, args)
+		print("Executed command:", cmd, "with args:", args)
+	else:
+		# TODO: 这里可以考虑用终端实现
+		print("Unknown command:", cmd)
 	
 	#* 执行后自动隐藏终端（可选）
 	_deactivate_terminal()

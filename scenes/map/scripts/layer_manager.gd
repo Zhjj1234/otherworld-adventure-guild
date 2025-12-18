@@ -16,3 +16,4 @@ func get_tile_data(layer_name: String, coords: Vector2i) -> Dictionary:
 		if custom_data is Dictionary:
 			return custom_data
 	return {}
+	

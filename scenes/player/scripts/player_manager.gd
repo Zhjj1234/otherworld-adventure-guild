@@ -35,10 +35,10 @@ var _final_position: Vector2i = Vector2i.ZERO
 #* 获取玩家初始数据并设置初始状态
 func init() -> void:
 	_player_data = GameDataManager.get_game_def_data_child("player_global_data", TYPE_DICTIONARY)
-	_current_position = Vector2(_player_data["current_position"]["x"], _player_data["current_position"]["y"])
-	_target_position = _current_position
-	_final_position = _current_position
-	_move_status = MOVE_STATUS.STOP
+	# _current_position = Vector2(_player_data["current_position"]["x"], _player_data["current_position"]["y"])
+	# _target_position = _current_position
+	# _final_position = _current_position
+	# _move_status = MOVE_STATUS.STOP
 	#* 示例：移动到坐标(6,0)
 	#*move_to(Vector2i(6,0))
 
@@ -102,5 +102,18 @@ func _on_reach_target():
 	#* 发出到达目标位置信号
 	reach_target.emit(_current_position)
 
+#* 玩家输入管理器点击网格的回调函数
 func _on_player_input_manager_grid_clicked(grid_pos: Vector2i) -> void:
 	move_to(grid_pos)
+
+func set_player_position(coords: Vector2i) -> void:
+	_current_position = Vector2(coords.x, coords.y)
+	_target_position = _current_position
+	_final_position = coords
+	_move_status = MOVE_STATUS.STOP
+
+func get_player_position_from_game_data() -> Vector2:
+	return Vector2(_player_data["current_position"]["x"], _player_data["current_position"]["y"])
+
+func _register_to_game_manager() -> void:
+	GameManager._player_manager = self

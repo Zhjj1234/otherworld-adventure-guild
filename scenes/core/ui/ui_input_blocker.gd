@@ -10,7 +10,7 @@ const OWNER_INPUT_METHOD: String = "handle_ui_input"
 
 var input_nodes: Array[Node]
 
-@export var input_group_name:String = ""
+@export var input_group_name: String = ""
 @export var disable_input_not_stack_end: bool = true
 @export var ignore_handle_ui_input_warning: bool = false
 @export var ignore_input_nodes_warning: bool = false
@@ -21,12 +21,10 @@ func _ready() -> void:
 		_owner = get_parent()
 	_owner.ready.connect(_on_owner_ready)
 	
-
 func _on_owner_ready() -> void:
 	# call_deferred("_warning_info")
 	_get_input_nodes()
 	push_to_ui_manager_stack()
-
 
 #* UIInputBlocker自己的_input方法（核心）
 func _input(event: InputEvent) -> void:
@@ -41,8 +39,7 @@ func _input(event: InputEvent) -> void:
 	for node in input_nodes:
 		#* 开关打开 → 调用owner的约定方法（参数和_input一致）
 		if node != null and node.has_method(OWNER_INPUT_METHOD):
-			node.call(OWNER_INPUT_METHOD, event) #* 直接调用owner的业务方法
-
+			node.call(OWNER_INPUT_METHOD, event) # * 直接调用owner的业务方法
 
 #* 对外的开关控制方法（一键禁用/启用）
 func disable_input() -> void:

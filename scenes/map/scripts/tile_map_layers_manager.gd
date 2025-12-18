@@ -2,7 +2,7 @@ extends Node2D
 class_name TileMapLayersManager
 
 #* 预加载瓦片集资源
-const TILESET = preload("uid://ctykftisdiffi")
+@export var tile_set: TileSet
 
 #* 存储所有图层管理器的数组
 var layers: Array[LayerManager] = []
@@ -51,10 +51,10 @@ func _set_tile_datas():
 			var custom_data = tile_data["custom_data"]
 			var layer_position = tile_data["layer_position"]
 			#* 检查是否存在同名的自定义数据层，如果不存在则创建
-			if not TILESET.has_custom_data_layer_by_name(layer_name):
-				TILESET.add_custom_data_layer(layer_position)
-				TILESET.set_custom_data_layer_name(layer_position, layer_name)
-				TILESET.set_custom_data_layer_type(layer_position, typeof(custom_data))
-			var tile_set_atlas_source: TileSetAtlasSource = TILESET.get_source(source_id) as TileSetAtlasSource
+			if not tile_set.has_custom_data_layer_by_name(layer_name):
+				tile_set.add_custom_data_layer(layer_position)
+				tile_set.set_custom_data_layer_name(layer_position, layer_name)
+				tile_set.set_custom_data_layer_type(layer_position, typeof(custom_data))
+			var tile_set_atlas_source: TileSetAtlasSource = tile_set.get_source(source_id) as TileSetAtlasSource
 			var data: TileData = tile_set_atlas_source.get_tile_data(Vector2i(atlas_coords["x"], atlas_coords["y"]), 0)
 			data.set_custom_data(layer_name, custom_data)
