@@ -6,38 +6,46 @@
   - 🔴 风险点：文件夹层级混乱导致后期维护困难，建议按“资源类型+功能模块”双重分类
 - [x] 小步骤1.2：编写核心配置文件模板（job_config.json、item_config.json、map_config.json、enemy_config.json），明确字段含义
   - 🟡 依赖前置：无，可独立开发；建议字段用英文命名（如job_id、item_effect），避免中文编码问题
-- [ ] 小步骤1.3：配置Git版本控制，初始化仓库并提交初始项目结构
+- [x] 小步骤1.3：配置Git版本控制，初始化仓库并提交初始项目结构
   - 🟡 风险点：忽略.gitignore文件导致冗余文件提交，需提前配置过滤Godot缓存文件（.import/、.godot/）
-- [ ] 小步骤2.1：开发DataManager.gd（统一加载JSON配置，提供get_job_config、get_item_config等接口）
+- [x] 小步骤2.1：开发DataManager.gd（统一加载JSON配置，提供get_job_config、get_item_config等接口）
   - 🔴 核心依赖：配置文件模板完成后才能开发，需确保接口命名与配置字段一致
-- [ ] 本周验收标准：文件夹结构清晰，配置文件可正常读取，Git仓库提交记录完整
-- [ ] 每日任务拆分模板（示例）：
+- [x] 本周验收标准：文件夹结构清晰，配置文件可正常读取，Git仓库提交记录完整
+- [x] 每日任务拆分模板（示例）：
   1. 周一：完成文件夹结构搭建+Git初始化
   2. 周二-周三：编写4个核心配置文件模板
   3. 周四-周五：开发DataManager.gd接口+测试读取功能
 
 ### 第2周核心交付物：核心单例+标准化接口
+- [ ] 小步骤2.1.1：开发MapLoaderManager.gd（全局单例，地图加载/切换/销毁核心逻辑）
+  - 🟡 依赖前置：DataManager.gd开发完成，需读取map_config.json中的地图ID映射
+  - 🟡 风险点：场景切换时地图节点销毁不彻底导致内存泄漏，需调用queue_free()并清空寻路回调
+- [ ] 小步骤2.1.2：完善MapManager.gd（添加register_to_pathfinder()方法，绑定寻路回调）
+  - 🔴 核心依赖：MapLoaderManager.gd完成基础框架，PathFinder.gd已实现register_is_passable_func接口
 - [ ] 小步骤2.2：开发GameManager.gd（全局状态管理、存档/加载功能、体力/队伍信息存储）
-  - 🔴 核心依赖：DataManager.gd开发完成，需调用其配置读取接口
-  - 🔴 风险点：存档数据格式不统一导致加载失败，建议用字典结构存储（如{team: [], stamina: 100, save_time: ""}）
+  - 🔴 核心依赖：DataManager.gd+MapLoaderManager.gd开发完成，需调用其配置读取/地图切换接口
+  - 🔴 风险点：存档数据格式不统一导致加载失败，建议用字典结构存储（如{team: [], stamina: 100, save_time: "", current_map_id: "forest_01"}）
+  - 📌 新增字段：存档中添加current_map_id，关联当前地图状态
+- [ ] 小步骤2.2.1：为GameManager.gd补充基础接口（get_tile_data()/switch_map()），对接MapManager/MapLoaderManager
+  - 🟡 依赖前置：MapLoaderManager.gd+MapManager.gd已完成，仅做接口封装
 - [ ] 小步骤2.3：测试单例通信，确保配置文件能正常读取并传递数据
-  - 🟢 测试重点：多场景切换时单例是否保持唯一，数据是否不丢失
+  - 🟢 测试重点：多场景切换时单例是否保持唯一，数据是否不丢失；地图切换后寻路回调是否正常绑定
 - [ ] 小步骤3.1：编写I_Interact.gd接口（定义_interact(character)函数）
   - 🟡 风险点：接口参数不明确导致后期适配困难，需注明character为Character类实例
 - [ ] 小步骤3.2：编写I_Fight.gd接口（定义get_attack_value()、take_damage(value)函数）
 - [ ] 小步骤3.3：编写I_JobSkill.gd接口（定义_cast(owner, target)函数）
-- [ ] 本周验收标准：单例脚本无报错，3个接口可正常调用，存档/加载功能可用
+- [ ] 本周验收标准：单例脚本无报错，3个接口可正常调用，存档/加载功能可用，地图切换逻辑无卡顿
 - [ ] 每日任务拆分模板（示例）：
-  1. 周一-周二：开发GameManager.gd核心功能
-  2. 周三：测试单例通信与存档/加载功能
-  3. 周四-周五：编写3个标准化接口+注释说明
+  1. 周一：开发MapLoaderManager.gd核心逻辑+MapManager.gd注册方法
+  2. 周二-周三：开发GameManager.gd核心功能（含current_map_id存储+基础接口封装）
+  3. 周四：测试单例通信与存档/加载功能+地图切换测试
+  4. 周五：编写3个标准化接口+注释说明
 
-## 阶段二：MVP核心玩法（第3-5周）—— 实现“探索→战斗→养成”闭环
 ### 第3周核心交付物：地图系统（基础版）+ 角色职业（基础版）
 - [ ] 小步骤4.1：用Godot TileMap绘制新手区域（森林外围），标记普通地形、沼泽地形、采集点、宝箱格
   - 🟡 风险点：TileMap图层顺序错误导致遮挡，建议按“背景→地形→交互对象”分层
 - [ ] 小步骤4.2：开发角色移动脚本，实现“每步消耗1点体力”逻辑（读取map_config.json配置）
-  - 🔴 核心依赖：GameManager.gd（体力存储）+ map_config.json（地形配置）
+  - 🔴 核心依赖：GameManager.gd（体力存储+get_tile_data接口）+ map_config.json（地形配置）
   - 🔴 风险点：移动时穿墙或卡地形，需添加碰撞体检测（CollisionShape2D）
 - [ ] 小步骤4.3：实现交互逻辑（采集点采集、宝箱打开），适配商人“采集大师”被动效果
   - 🟡 依赖前置：I_Interact.gd接口+角色职业系统基础配置
@@ -48,7 +56,7 @@
 - [ ] 本周验收标准：角色可在新手地图移动/交互，职业属性配置生效
 - [ ] 每日任务拆分模板（示例）：
   1. 周一-周二：绘制新手地图+配置地形数据
-  2. 周三：开发角色移动与体力消耗逻辑
+  2. 周三：开发角色移动与体力消耗逻辑（对接GameManager.get_tile_data）
   3. 周四：实现交互逻辑+职业预制体创建
   4. 周五：配置职业属性+整体流程测试
 

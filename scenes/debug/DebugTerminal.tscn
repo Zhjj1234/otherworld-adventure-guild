@@ -1,0 +1,75 @@
+[gd_scene load_steps=7 format=3 uid="uid://bflurysl47nfn"]
+
+[ext_resource type="Script" uid="uid://drfmc16po1gj1" path="res://scenes/debug/script/debug_terminal.gd" id="1_jlrcy"]
+[ext_resource type="PackedScene" uid="uid://c5ffxiq2084n1" path="res://scenes/core/ui/ui_input_blocker.tscn" id="2_pyonv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e7cgt"]
+bg_color = Color(0, 0, 0, 0.3254902)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pyonv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g6wrx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mltu3"]
+
+[node name="DebugTerminal" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_jlrcy")
+
+[node name="UiInputBlocker" parent="." instance=ExtResource("2_pyonv")]
+input_group_name = "debug_terminal"
+ignore_handle_ui_input_warning = true
+ignore_input_nodes_warning = true
+
+[node name="Panel" type="Panel" parent="."]
+z_index = 999
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_e7cgt")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 4.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Control" type="Control" parent="Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CommandInput" type="LineEdit" parent="Panel/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.0
+theme_override_colors/caret_color = Color(0, 0, 0, 0)
+theme_override_constants/caret_width = 0
+theme_override_constants/minimum_character_width = 0
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_pyonv")
+theme_override_styles/read_only = SubResource("StyleBoxFlat_g6wrx")
+theme_override_styles/focus = SubResource("StyleBoxFlat_mltu3")
+alignment = 1
+
+[node name="Control2" type="Control" parent="Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Control2" type="Control" parent="Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 4.0

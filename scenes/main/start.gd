@@ -23,7 +23,9 @@ func _on_new_game_pressed() -> void:
 			"level_system_config": "res://res/config/level_system_config.json",
 			"game_def_data": "res://res/game_data/game_def_data.json",
 		},
-		_update_progress_bar
+		_update_progress_bar,
+		GameDataManager,
+		"_game_data"
 	)
 	
 	#* print(GameDataManager.get_atlas_info())
@@ -34,7 +36,6 @@ func _on_new_game_pressed() -> void:
 	label.text = "100%"
 	await get_tree().create_timer(0.3).timeout # 让玩家看到 100% 一小会儿
 	label.hide()
-	print("所有资源加载完成！")
 	#print(JSON.stringify(GameDataManager._game_data, "  ", false))  # 美化打印
 	#* 这里可以安全进入游戏主场景了
 	get_tree().change_scene_to_file("res://scenes/main/game_main.tscn")

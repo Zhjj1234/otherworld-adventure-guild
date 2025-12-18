@@ -1,11 +1,8 @@
 {
   "player_global_data": {
-	"initial_position": { "x": 0, "y": 0 },
-	"current_position": { "x": 0, "y": 0 },
-	"game_progress": "chapter_1_complete",
-	"inventory": []
+    "initial_position": { "x": 0, "y": 0 },
+    "current_position": { "x": 0, "y": 0 },
+    "game_progress": "chapter_1_complete"
   },
-  "team_characters": [
-	
-  ]
+  "team_characters": []
 }
