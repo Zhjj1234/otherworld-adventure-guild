@@ -2,8 +2,6 @@ extends TileMapLayer
 class_name LayerManager
 
 #* 初始化函数
-func init():
-	pass
 
 #* 获取指定层和坐标的瓦片自定义数据
 #* @param layer_name 层名称

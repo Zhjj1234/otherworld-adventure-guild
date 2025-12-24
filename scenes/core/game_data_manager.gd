@@ -8,6 +8,22 @@ var _game_data: Dictionary = {}
 func get_map_config() -> Dictionary:
 	return TypeUtil.get_valid_dict(_game_data.get("map_config", {}), "map_config")
 
+#* 根据 map_id 获取单个地图信息（字典类型）
+func get_map_info_by_id(map_id: String) -> Dictionary:
+	var map_config = get_map_config()
+	if map_config.is_empty():
+		return {}
+
+	var maps_info = TypeUtil.get_valid_array(map_config.get("maps_info", []), "map_config.maps_info")
+	for map_info in maps_info:
+		if typeof(map_info) != TYPE_DICTIONARY:
+			continue
+		if map_info.get("id", "") == map_id:
+			return map_info
+
+	push_warning("map_config.maps_info 中未找到 id 为 [%s] 的地图" % map_id)
+	return {}
+
 #* 获取等级系统配置（字典类型）
 func get_level_system_config() -> Dictionary:
 	return TypeUtil.get_valid_dict(_game_data.get("level_system_config", {}), "level_system_config")

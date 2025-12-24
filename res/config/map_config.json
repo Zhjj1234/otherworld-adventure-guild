@@ -1,7 +1,7 @@
 {
   "atlas_info": [
 	{
-	  "source_id": 1,
+	  "source_id": 0,
 	  "tile_infos": [
 		{
 		  "atlas_coords": {
@@ -11,10 +11,23 @@
 		  "layer_name": "move",
 		  "layer_position": 0,
 		  "custom_data": {
-			"is_passable": true
+			"is_passable": true,
+			"move_cost": 10
 		  }
 		}
 	  ]
+	}
+  ],
+  "maps_info": [
+	{
+	  "id": "map1",
+	  "name": "map1",
+	  "path": "res://scenes/map/tilemaps/map1.tscn"
+	},
+	{
+	  "id": "map2",
+	  "name": "map2",
+	  "path": "res://scenes/map/tilemaps/map2.tscn"
 	}
   ]
 }

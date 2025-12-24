@@ -1,24 +1,34 @@
-[gd_scene load_steps=5 format=3 uid="uid://5uxwgj5upgww"]
+[gd_scene load_steps=7 format=3 uid="uid://5uxwgj5upgww"]
 
 [ext_resource type="Script" uid="uid://t1fv72nd5ejb" path="res://scenes/player/scripts/player_manager.gd" id="1_mfv1e"]
+[ext_resource type="Script" uid="uid://bkowp0uj4ia7b" path="res://scenes/player/scripts/player_core.gd" id="2_2qe4t"]
 [ext_resource type="Texture2D" uid="uid://dasw8paolmfvt" path="res://assets/images/icon.svg" id="2_be7ou"]
 [ext_resource type="Script" uid="uid://bjua2hm3qcmtf" path="res://scenes/player/scripts/player_input_manager.gd" id="2_snmcg"]
 [ext_resource type="Script" uid="uid://dm30x0jo7afkf" path="res://scenes/player/scripts/player_ui_manager.gd" id="3_snmcg"]
+[ext_resource type="Script" uid="uid://bjnoh3ajfphjp" path="res://scenes/player/scripts/player_movement_manager.gd" id="5_snmcg"]
 
 [node name="PlayerManager" type="Node2D"]
 script = ExtResource("1_mfv1e")
+
+[node name="PlayerCore" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_2qe4t")
+
+[node name="PlayerMovementManager" type="Node2D" parent="."]
+script = ExtResource("5_snmcg")
 
 [node name="PlayerInputManager" type="Node2D" parent="." groups=["stage_input"]]
 script = ExtResource("2_snmcg")
 
 [node name="PlayerUIManager" type="Sprite2D" parent="."]
 unique_name_in_owner = true
-scale = Vector2(0.75, 0.75)
+scale = Vector2(0.125, 0.125)
 texture = ExtResource("2_be7ou")
 script = ExtResource("3_snmcg")
 
 [node name="Camera2D" type="Camera2D" parent="PlayerUIManager"]
 scale = Vector2(1.3333334, 1.3333334)
-zoom = Vector2(0.5, 0.5)
+zoom = Vector2(4, 4)
 
-[connection signal="grid_clicked" from="PlayerInputManager" to="." method="_on_player_input_manager_grid_clicked"]
+[connection signal="grid_clicked" from="PlayerInputManager" to="PlayerMovementManager" method="_on_player_input_manager_grid_clicked"]
+[connection signal="grid_moved" from="PlayerInputManager" to="PlayerMovementManager" method="_on_player_input_manager_grid_moved"]

@@ -85,15 +85,17 @@ func _get_input_nodes() -> void:
 		return
 	if input_group_name != "":
 		input_nodes = get_tree().get_nodes_in_group(input_group_name)
-		print("✅UIInputBlocker：绑定输入节点数量 → %d" % input_nodes.size())
+		print("✅ UIInputBlocker: 绑定分组 [ %s ] 内的输入节点，数量: %d" % [input_group_name, input_nodes.size()])
 	else:
 		push_warning("UIInputBlocker：未设置 input_group_name，无法绑定输入节点！")
 		input_nodes = []
 		return
 	if ignore_handle_ui_input_warning == false:
-		for node in input_nodes:
-			if not node.has_method(OWNER_INPUT_METHOD):
-				push_warning("UIInputBlocker：owner【%s】未实现 %s 方法！" % [node.name, OWNER_INPUT_METHOD])
+		for i in range(input_nodes.size()):
+			if not input_nodes[i].has_method(OWNER_INPUT_METHOD):
+				push_warning("UIInputBlocker：owner【%s】未实现 %s 方法！" % [input_nodes[i].name, OWNER_INPUT_METHOD])
+			else:
+				print("    [%d] %s" % [i + 1, input_nodes[i].get_path()])
 	if ignore_input_nodes_warning == false:
 		if input_nodes.size() == 0:
 			push_warning("UIInputBlocker：未设置 在【%s】中 input_nodes，无法绑定输入节点！" % [owner.name])

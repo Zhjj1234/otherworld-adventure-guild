@@ -1,8 +1,17 @@
 {
-  "player_global_data": {
-    "initial_position": { "x": 0, "y": 0 },
-    "current_position": { "x": 0, "y": 0 },
-    "game_progress": "chapter_1_complete"
-  },
-  "team_characters": []
+	"player_global_data": {
+		"initial_position": {
+			"x": 0.0,
+			"y": 0.0
+		},
+		"current_position": {
+			"x": 0.0,
+			"y": 0.0
+		},
+		"game_progress": "chapter_1_complete",
+		"current_map_id": "map1",
+		"max_stamina": 50.0,
+		"current_stamina": 50.0
+	},
+	"team_characters": []
 }

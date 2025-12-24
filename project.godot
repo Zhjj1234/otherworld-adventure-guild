@@ -17,6 +17,7 @@ config/icon="res://assets/images/icon.svg"
 
 [autoload]
 
+EventBus="*res://scenes/core/event_bus.gd"
 GameDataManager="*res://scenes/core/game_data_manager.gd"
 SaveAndLoadManager="*res://scenes/core/save_and_load_manager.gd"
 MapLoaderManager="*res://scenes/core/map_loader_manager.gd"
