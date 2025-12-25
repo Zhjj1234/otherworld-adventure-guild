@@ -13,7 +13,7 @@ func _ready():
 	_set_tile_datas()
 	_set_layers()
 	_set_path_finder_func()
-	tile_map_layers_manager_registered.connect(get_parent().on_tile_map_layers_manager_registered)
+	tile_map_layers_manager_registered.connect(MapManager.on_tile_map_layers_manager_registered)
 	tile_map_layers_manager_registered.emit(self)
 	
 
@@ -79,4 +79,4 @@ func get_tile_move_cost(coords: Vector2i) -> float:
 	return move_cost  #* 返回总移动成本
 
 func _exit_tree():
-	tile_map_layers_manager_registered.disconnect(get_parent().on_tile_map_layers_manager_registered)
+	tile_map_layers_manager_registered.disconnect(MapManager.on_tile_map_layers_manager_registered)

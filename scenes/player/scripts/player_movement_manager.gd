@@ -9,7 +9,6 @@ var _player_data
 #* 玩家UI管理器引用，用于更新玩家UI位置
 @onready var player_ui_mamager: PlayerUIManager = %PlayerUIManager
 @onready var player_core: PlayerCore = %PlayerCore
-@onready var map_manager: MapManager = $"../../MapManager"
 
 #* 玩家移动速度常量，单位：格子/秒
 const PLAYER_SPEED: float = 1 / 0.1
@@ -27,6 +26,7 @@ enum MOVE_STATUS {
 signal reach_target(coords: Vector2i)
 signal button_coords_changed(path: Array, passable_path: Array)
 signal move_status_changed(status: MOVE_STATUS)
+signal player_movement_manager_registered(player_movement_manager: PlayerMovementManager)
 
 #* 目标位置坐标
 var _target_position: Vector2 = Vector2.ZERO
@@ -49,7 +49,12 @@ var _final_position: Vector2i = Vector2i.ZERO
 
 #* 初始化玩家管理器
 #* 获取玩家初始数据并设置初始状态
-
+func _ready() -> void:
+	player_movement_manager_registered.connect(PlayerManager._on_player_movement_manager_registered)
+	button_coords_changed.connect(MapManager.layer_grid_path.rend_directional)
+	move_status_changed.connect(MapManager.layer_grid_path._on_player_movement_manager_move_status_changed)
+	
+	player_movement_manager_registered.emit(self)
 
 #* 游戏主循环处理函数
 #* 每帧更新玩家位置和UI显示
@@ -89,6 +94,7 @@ func move_to(coords: Vector2i):
 	#* - MOVE_STEP: 最大步长，限制路径搜索的范围
 	#* - true: 是否允许对角线移动
 	var path = _get_costable_path(_get_passable_path(_current_position, coords))
+	print("📝 总移动路径: ", path)
 	#* 保存最终目标位置，用于检测路径是否仍然有效
 	_final_position = path.back().position
 	#* 循环处理路径中的每个点，直到到达终点
@@ -101,6 +107,7 @@ func move_to(coords: Vector2i):
 		move_status = MOVE_STATUS.MOVING
 		#* 设置下一个目标位置为路径中的第二个点
 		_target_position = path[1].position
+		print("🗺️  移动路径: ", _current_position, " → ", _target_position)
 		#* 等待到达当前目标点的信号
 		await reach_target
 		#* 到达目标点后，移除路径中的第一个点，继续处理剩余路径
@@ -108,6 +115,7 @@ func move_to(coords: Vector2i):
 
 #* 到达目标位置时的回调函数
 func _on_reach_target():
+	print("🏁  已到达终点: ", _current_position, " ✅")
 	#* 发出到达目标位置信号
 	reach_target.emit(_current_position)
 
@@ -146,7 +154,7 @@ func _get_costable_path(passable_path: Array) -> Array:
 		if i == 0:
 			costable_path.append(position_info)
 			continue
-		var cost_stamina = map_manager.get_tile_stamina_cost(passable_path[i])
+		var cost_stamina = MapManager.get_tile_stamina_cost(passable_path[i])
 		# TODO 这里获取其他道路上的信息，存入position_info中的data
 		if current_stamina >= cost_stamina:
 			costable_path.append(position_info)
@@ -160,3 +168,8 @@ func _on_player_input_manager_grid_moved(grid_pos: Vector2i) -> void:
 	var passable_path = _get_passable_path(_current_position, grid_pos)
 	var costable_path = _get_costable_path(passable_path)
 	button_coords_changed.emit(passable_path, costable_path)
+
+func _exit_tree():
+	player_movement_manager_registered.disconnect(PlayerManager._on_player_movement_manager_registered)
+	button_coords_changed.disconnect(MapManager.layer_grid_path.rend_directional)
+	move_status_changed.disconnect(MapManager.layer_grid_path._on_player_movement_manager_move_status_changed)

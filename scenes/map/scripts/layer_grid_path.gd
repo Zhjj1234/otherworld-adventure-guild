@@ -3,10 +3,13 @@
 extends TileMapLayer
 class_name LayerGridPath
 
+signal layer_grid_path_registered(layer_grid_path: LayerGridPath)
+
 #* 节点初始化函数
 #* 在节点准备就绪时执行初始化操作
 func _ready() -> void:
-	pass
+	layer_grid_path_registered.connect(MapManager._on_layer_grid_path_registered)
+	layer_grid_path_registered.emit(self)
 
 
 #* 渲染方向性路径
@@ -36,3 +39,11 @@ func _set_passable(coords: Vector2i) -> void:
 #* @param coords: Vector2i - 要设置的坐标
 func _set_dis_passable(coords: Vector2i) -> void:
 	set_cell(coords, 0, Vector2i(1,0))
+
+func _on_player_movement_manager_move_status_changed(status: PlayerMovementManager.MOVE_STATUS) -> void:
+	if status == PlayerMovementManager.MOVE_STATUS.MOVING:
+		visible = false
+
+func _exit_tree() -> void:
+	layer_grid_path_registered.disconnect(MapManager._on_layer_grid_path_registered)
+	PlayerManager.player_movement_manager.move_status_changed.disconnect(rend_directional)

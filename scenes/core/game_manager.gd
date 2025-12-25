@@ -1,21 +1,9 @@
 extends Node
 
-#* 游戏管理器节点，负责协调地图和玩家管理器
-var _map_manager: MapManager = null  #* 地图管理器实例引用
-var _player_manager: PlayerManager = null  #* 玩家管理器实例引用
-
-#* 当玩家管理器注册时调用
-func on_player_manager_registered(player_manager: PlayerManager):
-	_player_manager = player_manager
-
-#* 当地图管理器注册时调用
-func on_map_manager_registered(map_manager: MapManager):
-	_map_manager = map_manager
-
 #* 切换到指定地图并设置玩家位置
 func switch_map(map_id: String, player_position: Vector2):
-	_map_manager.switch_map(map_id)  #* 切换当前地图
-	_player_manager.player_movement_manager.set_player_position(player_position)  #* 设置玩家在新地图中的位置
+	MapManager.switch_map(map_id)  #* 切换当前地图
+	PlayerManager.player_movement_manager.set_player_position(player_position)  #* 设置玩家在新地图中的位置
 
 #* 初始化游戏状态，从存档数据中恢复玩家位置和地图
 func initizalize_game_state():

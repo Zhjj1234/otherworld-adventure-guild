@@ -2,7 +2,7 @@ extends Node
 
 # ========== 全局变量 ==========
 # 地图容器（Stage节点引用）
-var _map_manager: Node = null
+var _map_container: Node = null
 # 当前加载的地图实例
 var current_map: Node = null
 # 预加载地图缓存
@@ -10,15 +10,15 @@ var preloaded_maps: Dictionary = {}
 
 # ========== 核心接口 ==========
 ## 1. 注册Stage节点（必须先调用）
-func on_map_manager_registered(map_manager: Node) -> void:
-	_map_manager = map_manager
+func on_map_container_registered(map_manager: Node) -> void:
+	_map_container = map_manager
 	print("✅ MapLoaderManager: Stage节点注册成功")
 
 ## 2. 切换地图（主方法）
 func switch_map(map_scene_path: String) -> void:
 	print("🔄 MapLoaderManager: 地图开始切换 → ", map_scene_path)
 	# 校验Stage是否注册
-	if not _map_manager:
+	if not _map_container:
 		push_error("❌ MapLoaderManager: 请先调用 register_stage 注册Stage节点！")
 		return
 	
@@ -43,7 +43,7 @@ func switch_map(map_scene_path: String) -> void:
 	current_map = map_packed.instantiate()
 	# 监听地图就绪信号
 	current_map.ready.connect(_on_map_ready)
-	_map_manager.add_child(current_map)
+	_map_container.add_child(current_map)
 	# print("🔄 MapLoaderManager: 地图切换中 → ", map_scene_path)
 
 ## 3. 预加载地图（提前缓存，避免卡顿）

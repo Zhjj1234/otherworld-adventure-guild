@@ -23,6 +23,8 @@ SaveAndLoadManager="*res://scenes/core/save_and_load_manager.gd"
 MapLoaderManager="*res://scenes/core/map_loader_manager.gd"
 GridManager="*res://scenes/core/grid_manager.gd"
 GameManager="*res://scenes/core/game_manager.gd"
+MapManager="*res://scenes/core/map_manager.gd"
+PlayerManager="*res://scenes/core/player_manager.gd"
 DebugTerminal="*res://scenes/debug/DebugTerminal.tscn"
 UiManager="*res://scenes/core/ui/ui_manager.gd"
 
