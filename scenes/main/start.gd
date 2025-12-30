@@ -14,20 +14,8 @@ func _on_new_game_pressed() -> void:
 	label.show()
 	
 	#* 开始异步加载所有资源，await 保证这里会等到全部加载完毕
-	await SaveAndLoadManager._load_all(
-		{
-			"map_config": "res://res/config/map_config.json",
-			"job_config": "res://res/config/job_config.json",
-			"enemy_config": "res://res/config/enemy_config.json",
-			"skill_config": "res://res/config/skill_config.json",
-			"level_system_config": "res://res/config/level_system_config.json",
-			"game_def_data": "res://res/game_data/game_def_data.json",
-		},
-		_update_progress_bar,
-		GameDataManager,
-		"_game_data"
-	)
-	
+	SaveLoadManager.load_new_game(1)
+
 	#* print(GameDataManager.get_atlas_info())
 	#* print(GameDataManager.game_data)
 	#* #*  得到的JSON类型资源的data是一个Dictionary（字典）
@@ -44,5 +32,5 @@ func _on_new_game_pressed() -> void:
 #* 实时更新进度条（放在这里更清晰，_process 里就不用写了）
 #* ------------------------------------------------------------------
 func _update_progress_bar(_game_datas: Dictionary) -> void:
-	var percent = int(SaveAndLoadManager.current_progress * 100)
+	var percent = int(ResourceLoaderManager.current_progress * 100)
 	label.text = str(percent) + "%"

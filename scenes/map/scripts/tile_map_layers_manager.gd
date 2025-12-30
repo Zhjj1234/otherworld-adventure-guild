@@ -34,10 +34,10 @@ func _set_path_finder_func():
 			var has_passable = false
 			#* 遍历地面图层检查是否可通过
 			for layer: LayerManager in layers:
-				var is_passable_data: Dictionary = layer.get_tile_data("move", coords)
+				var tile_move_data: BaseTileData = layer.get_tile_data("move", coords)
 				#* 如果没有移动权限，则返回false
-				if is_passable_data.has("is_passable"):
-					if not is_passable_data.get("is_passable"):
+				if tile_move_data is TileMoveData:
+					if not tile_move_data.is_passable:
 						return false
 					else:
 						has_passable = true
@@ -49,22 +49,22 @@ func _set_path_finder_func():
 #* 设置所有瓦片的自定义数据
 #* 从游戏数据管理器获取图集信息，并设置到瓦片集中
 func _set_tile_datas():
-	var atlas_infos = GameDataManager.get_map_config_child("atlas_info", TYPE_ARRAY) as Array
-	for atlas in atlas_infos:
-		var source_id = atlas["source_id"]
-		var atlas_info = atlas["tile_infos"]
-		for tile_data in atlas_info:
-			var atlas_coords = tile_data["atlas_coords"]
-			var layer_name = tile_data["layer_name"]
-			var custom_data = tile_data["custom_data"]
-			var layer_position = tile_data["layer_position"]
+	var atlas_info_list = ConfigManager.get_atlas_info_list()
+	for atlas_info: AtlasInfo in atlas_info_list:
+		var source_id = atlas_info.source_id
+		var tile_custom_data_list = atlas_info.tile_custom_data_list
+		for tile_custom_data in tile_custom_data_list:
+			var atlas_coords = tile_custom_data.atlas_coords
+			var layer_name = tile_custom_data.layer_name
+			var custom_data = tile_custom_data.custom_data
+			var layer_position = tile_custom_data.layer_position
 			#* 检查是否存在同名的自定义数据层，如果不存在则创建
 			if not GridManager.TILE_SET.has_custom_data_layer_by_name(layer_name):
 				GridManager.TILE_SET.add_custom_data_layer(layer_position)
 				GridManager.TILE_SET.set_custom_data_layer_name(layer_position, layer_name)
 				GridManager.TILE_SET.set_custom_data_layer_type(layer_position, typeof(custom_data))
 			var tile_set_atlas_source: TileSetAtlasSource = GridManager.TILE_SET.get_source(source_id) as TileSetAtlasSource
-			var data: TileData = tile_set_atlas_source.get_tile_data(Vector2i(atlas_coords["x"], atlas_coords["y"]), 0)
+			var data: TileData = tile_set_atlas_source.get_tile_data(atlas_coords, 0)
 			data.set_custom_data(layer_name, custom_data)
 
 #* 获取指定坐标的移动成本
@@ -73,9 +73,9 @@ func _set_tile_datas():
 func get_tile_move_cost(coords: Vector2i) -> float:
 	var move_cost = 0  #* 初始化移动成本为0
 	for layer: LayerManager in layers:
-		var is_passable_data: Dictionary = layer.get_tile_data("move", coords)  #* 获取移动相关数据
-		if is_passable_data.has("move_cost"):
-			move_cost = move_cost + is_passable_data.get("move_cost")  #* 累加移动成本
+		var tile_move_Data = layer.get_tile_data("move", coords) as BaseTileData  #* 获取移动相关数据
+		if tile_move_Data is TileMoveData:
+			move_cost = move_cost + tile_move_Data.move_cost  #* 累加移动成本
 	return move_cost  #* 返回总移动成本
 
 func _exit_tree():

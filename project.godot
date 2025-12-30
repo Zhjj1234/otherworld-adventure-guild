@@ -8,6 +8,19 @@
 
 config_version=5
 
+[addons]
+
+resources_spreadsheet_view/array_color_tint=100.0
+resources_spreadsheet_view/color_rows=true
+resources_spreadsheet_view/array_min_width=128.0
+resources_spreadsheet_view/resource_preview_size=32.0
+resources_spreadsheet_view/clip_headers=false
+resources_spreadsheet_view/dupe_arrays=true
+resources_spreadsheet_view/context_menu_on_leftclick=false
+resources_spreadsheet_view/fold_docks=true
+resources_spreadsheet_view/resource_cell_label_mode=1
+resources_spreadsheet_view/freeze_first_column=true
+
 [application]
 
 config/name="TestLoad"
@@ -18,8 +31,10 @@ config/icon="res://assets/images/icon.svg"
 [autoload]
 
 EventBus="*res://scenes/core/event_bus.gd"
+ResourceLoaderManager="*res://scenes/core/resource_loader_manager.gd"
 GameDataManager="*res://scenes/core/game_data_manager.gd"
-SaveAndLoadManager="*res://scenes/core/save_and_load_manager.gd"
+ConfigManager="*res://scenes/core/config_manager.gd"
+SaveLoadManager="*res://scenes/core/save_load_manager.gd"
 MapLoaderManager="*res://scenes/core/map_loader_manager.gd"
 GridManager="*res://scenes/core/grid_manager.gd"
 GameManager="*res://scenes/core/game_manager.gd"
@@ -36,6 +51,10 @@ window/size/window_width_override=960
 window/size/window_height_override=540
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/GnumarusStaticDataImporter/plugin.cfg", "res://addons/godot-sqlite/plugin.cfg", "res://addons/resources_spreadsheet_view/plugin.cfg")
 
 [input]
 

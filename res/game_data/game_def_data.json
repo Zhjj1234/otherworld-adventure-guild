@@ -13,5 +13,7 @@
 		"max_stamina": 50.0,
 		"current_stamina": 50.0
 	},
-	"team_characters": []
+	"team_characters": [
+		{}
+	]
 }

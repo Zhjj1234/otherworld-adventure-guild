@@ -7,8 +7,6 @@ func switch_map(map_id: String, player_position: Vector2):
 
 #* 初始化游戏状态，从存档数据中恢复玩家位置和地图
 func initizalize_game_state():
-	var player_global_data = GameDataManager.\
-		get_game_def_data_child("player_global_data", TYPE_DICTIONARY)  #* 获取玩家全局数据
-	var current_map_id = player_global_data.current_map_id  #* 获取当前地图ID
-	var current_player_position = player_global_data.current_position  #* 获取玩家当前位置
-	switch_map(current_map_id, Vector2(current_player_position.x, current_player_position.y))  #* 切换到存档时的地图和位置
+	var current_map_id = GameDataManager.get_player_current_map_id()  #* 获取当前地图ID
+	var current_player_position = GameDataManager.get_player_current_position()  #* 获取玩家当前位置
+	switch_map(current_map_id, current_player_position)  #* 切换到存档时的地图和位置

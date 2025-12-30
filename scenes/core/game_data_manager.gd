@@ -1,28 +1,16 @@
 extends Node
 
+# var new_game_cache: GameData
+
+var _current_game_cache: GameData
+
+var _default_game_cache: GameData
+
 #* 游戏数据管理器 - 负责处理游戏配置数据的获取和管理
 var _game_data: Dictionary = {}
 
-# ==================== 业务专属获取接口（对外暴露，语义清晰） ====================
-#* 获取地图配置（字典类型）
-func get_map_config() -> Dictionary:
-	return TypeUtil.get_valid_dict(_game_data.get("map_config", {}), "map_config")
-
-#* 根据 map_id 获取单个地图信息（字典类型）
-func get_map_info_by_id(map_id: String) -> Dictionary:
-	var map_config = get_map_config()
-	if map_config.is_empty():
-		return {}
-
-	var maps_info = TypeUtil.get_valid_array(map_config.get("maps_info", []), "map_config.maps_info")
-	for map_info in maps_info:
-		if typeof(map_info) != TYPE_DICTIONARY:
-			continue
-		if map_info.get("id", "") == map_id:
-			return map_info
-
-	push_warning("map_config.maps_info 中未找到 id 为 [%s] 的地图" % map_id)
-	return {}
+func _ready() -> void:
+	_default_game_cache = ResourceLoader.load("res://res/game_data/tres/game_data_new_game.tres")
 
 #* 获取等级系统配置（字典类型）
 func get_level_system_config() -> Dictionary:
@@ -40,18 +28,35 @@ func get_job_config() -> Array:
 func get_enemy_config() -> Array:
 	return TypeUtil.get_valid_array(_game_data.get("enemy_config", []), "enemy_config")
 
-#* 获取游戏默认配置（字典类型）
-func get_game_def_data() -> Dictionary:
-	return TypeUtil.get_valid_dict(_game_data.get("game_def_data", {}), "game_def_data")
+
 
 #* 新增：对外暴露的深层字段快捷获取接口
 func get_map_config_child(child_key: String, expected_type: int) -> Variant:
 	return TypeUtil.get_dict_child_from_config(_game_data, "map_config", child_key, expected_type)
 
 #* 新增：对外暴露的深层字段快捷获取接口
-func get_game_def_data_child(child_key: String, expected_type: int) -> Variant:
-	return TypeUtil.get_dict_child_from_config(_game_data, "game_def_data", child_key, expected_type)
+# func get_game_def_data_child(child_key: String, expected_type: int) -> Variant:
+# 	return TypeUtil.get_dict_child_from_config(_game_data, "game_def_data", child_key, expected_type)
 
 #* 新增：对外暴露的深层字段快捷获取接口
 func get_level_system_config_child(child_key: String, expected_type: int) -> Variant:
 	return TypeUtil.get_dict_child_from_config(_game_data, "level_system_config", child_key, expected_type)
+
+
+# ==================== GameData专属接口 ====================
+
+#* 获取游戏默认配置（字典类型）
+func get_current_game_data() -> GameData:
+	return _current_game_cache
+
+#* 获取当前玩家位置
+func get_player_current_position() -> Vector2:
+	return get_current_game_data().player_global_data.current_position
+
+#* 获取当前玩家地图ID
+func get_player_current_map_id() -> String:
+	return get_current_game_data().player_global_data.current_map_id
+
+#* 获取当前玩家体力
+func get_player_current_stamina() -> float:
+	return get_current_game_data().player_global_data.current_stamina

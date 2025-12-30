@@ -1,0 +1,33 @@
+{
+	"atlas_info_list": [
+		{
+			"source_id": 0.0,
+			"tile_custom_data_list": [
+				{
+					"atlas_coords": {
+						"x": 0.0,
+						"y": 0.0
+					},
+					"layer_name": "move",
+					"layer_position": 0.0,
+					"custom_data": {
+						"is_passable": true,
+						"move_cost": 10.0
+					}
+				}
+			]
+		}
+	],
+	"map_info_list": [
+		{
+			"map_id": "map1",
+			"map_name": "map1",
+			"map_path": "res://scenes/map/tilemaps/map1.tscn"
+		},
+		{
+			"map_id": "map2",
+			"map_name": "map2",
+			"map_path": "res://scenes/map/tilemaps/map2.tscn"
+		}
+	]
+}

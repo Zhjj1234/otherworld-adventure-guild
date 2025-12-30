@@ -40,10 +40,10 @@ func _set_passable(coords: Vector2i) -> void:
 func _set_dis_passable(coords: Vector2i) -> void:
 	set_cell(coords, 0, Vector2i(1,0))
 
-func _on_player_movement_manager_move_status_changed(status: PlayerMovementManager.MOVE_STATUS) -> void:
-	if status == PlayerMovementManager.MOVE_STATUS.MOVING:
-		visible = false
+# func _on_player_movement_manager_move_status_changed(status: PlayerMovementManager.MOVE_STATUS) -> void:
+# 	if status == PlayerMovementManager.MOVE_STATUS.MOVING:
+# 		visible = false
 
 func _exit_tree() -> void:
 	layer_grid_path_registered.disconnect(MapManager._on_layer_grid_path_registered)
-	PlayerManager.player_movement_manager.move_status_changed.disconnect(rend_directional)
+	# PlayerManager.player_movement_manager.move_status_changed.disconnect(rend_directional)

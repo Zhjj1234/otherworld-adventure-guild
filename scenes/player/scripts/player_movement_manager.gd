@@ -24,6 +24,7 @@ enum MOVE_STATUS {
 #* 到达目标位置时发出的信号
 #* @param coords: Vector2i - 到达的目标坐标
 signal reach_target(coords: Vector2i)
+# TODO 用于地图高亮
 signal button_coords_changed(path: Array, passable_path: Array)
 signal move_status_changed(status: MOVE_STATUS)
 signal player_movement_manager_registered(player_movement_manager: PlayerMovementManager)
@@ -51,8 +52,8 @@ var _final_position: Vector2i = Vector2i.ZERO
 #* 获取玩家初始数据并设置初始状态
 func _ready() -> void:
 	player_movement_manager_registered.connect(PlayerManager._on_player_movement_manager_registered)
-	button_coords_changed.connect(MapManager.layer_grid_path.rend_directional)
-	move_status_changed.connect(MapManager.layer_grid_path._on_player_movement_manager_move_status_changed)
+	# button_coords_changed.connect(MapManager.layer_grid_path.rend_directional)
+	# move_status_changed.connect(MapManager.layer_grid_path._on_player_movement_manager_move_status_changed)
 	
 	player_movement_manager_registered.emit(self)
 
@@ -93,20 +94,20 @@ func move_to(coords: Vector2i):
 	#* - coords: 目标位置
 	#* - MOVE_STEP: 最大步长，限制路径搜索的范围
 	#* - true: 是否允许对角线移动
-	var path = _get_costable_path(_get_passable_path(_current_position, coords))
+	var path = _get_passable_path(_current_position, coords)
 	print("📝 总移动路径: ", path)
 	#* 保存最终目标位置，用于检测路径是否仍然有效
-	_final_position = path.back().position
+	_final_position = path.back()
 	#* 循环处理路径中的每个点，直到到达终点
 	#* 路径的第一个元素是当前位置，所以从第二个元素开始处理
 	while path.size() > 1:
 		#* 检查最终目标位置是否发生变化，如果变化则终止当前移动
-		if _final_position != path.back().position:
+		if _final_position != path.back():
 			return
 		#* 设置移动状态为移动中
 		move_status = MOVE_STATUS.MOVING
 		#* 设置下一个目标位置为路径中的第二个点
-		_target_position = path[1].position
+		_target_position = path[1]
 		print("🗺️  移动路径: ", _current_position, " → ", _target_position)
 		#* 等待到达当前目标点的信号
 		await reach_target
@@ -144,32 +145,32 @@ func get_player_current_map() -> String:
 func _get_passable_path(start: Vector2i, end: Vector2i) -> Array:
 	return GridManager.path_finder.find_path(start, end, MOVE_STEP, true)
 
-#* 获取可移动路径
-func _get_costable_path(passable_path: Array) -> Array:
-	var costable_path = []
-	# TODO 计算可移动路径长度
-	var current_stamina = player_core.get_player_current_stamina()
-	for i in range(passable_path.size()):
-		var position_info = {"position": passable_path[i], "data": {}}
-		if i == 0:
-			costable_path.append(position_info)
-			continue
-		var cost_stamina = MapManager.get_tile_stamina_cost(passable_path[i])
-		# TODO 这里获取其他道路上的信息，存入position_info中的data
-		if current_stamina >= cost_stamina:
-			costable_path.append(position_info)
-			current_stamina -= cost_stamina
-	return costable_path
+#* @deprecated 获取可移动路径
+# func _get_costable_path(passable_path: Array) -> Array:
+# 	var costable_path = []
+# 	# TODO 计算可移动路径长度
+# 	var current_stamina = player_core.get_player_current_stamina()
+# 	for i in range(passable_path.size()):
+# 		var position_info = {"position": passable_path[i], "data": {}}
+# 		if i == 0:
+# 			costable_path.append(position_info)
+# 			continue
+# 		var cost_stamina = MapManager.get_tile_stamina_cost(passable_path[i])
+# 		# TODO 这里获取其他道路上的信息，存入position_info中的data
+# 		if current_stamina >= cost_stamina:
+# 			costable_path.append(position_info)
+# 			current_stamina -= cost_stamina
+# 	return costable_path
 
-#* 玩家输入管理器移动网格的回调函数
-func _on_player_input_manager_grid_moved(grid_pos: Vector2i) -> void:
-	if move_status == MOVE_STATUS.MOVING:
-		return
-	var passable_path = _get_passable_path(_current_position, grid_pos)
-	var costable_path = _get_costable_path(passable_path)
-	button_coords_changed.emit(passable_path, costable_path)
+#* @deprecated 玩家输入管理器移动网格的回调函数
+# func _on_player_input_manager_grid_moved(grid_pos: Vector2i) -> void:
+# 	if move_status == MOVE_STATUS.MOVING:
+# 		return
+# 	var passable_path = _get_passable_path(_current_position, grid_pos)
+# 	var costable_path = _get_costable_path(passable_path)
+# 	button_coords_changed.emit(passable_path, costable_path)
 
 func _exit_tree():
 	player_movement_manager_registered.disconnect(PlayerManager._on_player_movement_manager_registered)
-	button_coords_changed.disconnect(MapManager.layer_grid_path.rend_directional)
-	move_status_changed.disconnect(MapManager.layer_grid_path._on_player_movement_manager_move_status_changed)
+	# button_coords_changed.disconnect(MapManager.layer_grid_path.rend_directional)
+	# move_status_changed.disconnect(MapManager.layer_grid_path._on_player_movement_manager_move_status_changed)

@@ -46,7 +46,7 @@ func _load_all(key_path: Dictionary, progress_func = null, global_instance = Gam
 	
 	#* 关键：并行启动所有资源的后台加载（这里不 await，只是提交任务）
 	for var_name in key_path.keys():
-		load_res_async(var_name, key_path[var_name], global_instance, variable_name)
+		load_res_async(key_path[var_name], var_name, global_instance, variable_name)
 	
 	#* 主线程每帧轮询，直到所有资源加载完毕
 	while _game_datas["count"] < _game_datas["total_count"]:
@@ -71,7 +71,7 @@ func _load_all(key_path: Dictionary, progress_func = null, global_instance = Gam
 # global_instance: 全局实例
 # variable_name  : 变量名
 # ------------------------------------------------------------------
-func load_res_async(var_name: String, path: String, global_instance = GameDataManager, variable_name: String = "_game_data") -> void:
+func load_res_async(path: String, var_name: String = "", global_instance = GameDataManager, variable_name: String = "_game_data") -> void:
 	#* 为这个资源在全局容器里预留位置
 	_game_datas["res"][path] = {
 		"progress": [0.0], # * ResourceLoader 会实时把进度写入这个数组
@@ -119,9 +119,15 @@ func load_res_async(var_name: String, path: String, global_instance = GameDataMa
 		var var_name_key = _game_datas["res"][path]["variable_name"]
 		
 		if resource is JSON:
-			instance.get(var_name_key)[var_name] = resource.data
+			if var_name == "":
+				instance.set(var_name_key, resource.data)
+			else:
+				instance.get(var_name_key)[var_name] = resource.data
 		else:
-			instance.get(var_name_key)[var_name] = resource
+			if var_name == "":
+				instance.set(var_name_key, resource)
+			else:
+				instance.get(var_name_key)[var_name] = resource
 	
 	#* 无论成功还是失败，都要 +1 计数，结束这个任务
 	_game_datas["count"] += 1
