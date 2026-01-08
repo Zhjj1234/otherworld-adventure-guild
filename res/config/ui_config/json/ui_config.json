@@ -1,0 +1,17 @@
+{
+	
+	"game_scene_ui_data_list": [
+		{
+			"ui_id": "game_start_menu_ui",
+			"ui_name": "game_start_menu_ui",
+			"ui_path": "res://scenes/start/ui/game_start_menu_ui.tscn",
+			"game_scene_id": "game_start"
+		},
+		{
+			"ui_id": "game_list_ui",
+			"ui_name": "game_list_ui",
+			"ui_path": "res://scenes/start/ui/game_list_ui.tscn",
+			"game_scene_id": "game_start"
+		}
+	]
+}	

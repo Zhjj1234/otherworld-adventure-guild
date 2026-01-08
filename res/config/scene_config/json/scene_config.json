@@ -1,0 +1,17 @@
+	
+{
+	"game_scene_data_list": [
+		{
+			"game_scene_id": "game_start",
+			"game_scene_name": "game_start",
+			"game_scene_scene_path": "res://scenes/start/game_start.tscn"
+			
+		},
+		{
+			"game_scene_id": "game_main",
+			"game_scene_name": "game_main",
+			"game_scene_scene_path": "res://scenes/main/game_main.tscn"
+
+		}
+	]
+}

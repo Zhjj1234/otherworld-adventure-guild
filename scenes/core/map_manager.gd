@@ -11,6 +11,7 @@ func _ready():
 
 #* 切换到指定ID的地图
 func switch_map(map_id: String) -> void:
+	GameDataManager.set_player_current_map_id(map_id)  #* 设置当前地图ID
 	var map_path = ConfigManager.get_map_info_by_id(map_id).map_path  #* 获取地图路径
 	MapLoaderManager.switch_map(map_path)  #* 通过地图加载管理器切换地图
 

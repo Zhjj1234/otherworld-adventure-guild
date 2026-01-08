@@ -6,3 +6,6 @@ var player_movement_manager: PlayerMovementManager = null
 
 func _on_player_movement_manager_registered(pmm: PlayerMovementManager):
 	player_movement_manager = pmm
+
+func set_player_position(pos: Vector2):
+	player_movement_manager._set_player_position(pos)

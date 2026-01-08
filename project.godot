@@ -24,7 +24,7 @@ resources_spreadsheet_view/freeze_first_column=true
 [application]
 
 config/name="TestLoad"
-run/main_scene="uid://cp1pbma5xfhpf"
+run/main_scene="uid://urog7t31cgnx"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://assets/images/icon.svg"
 
@@ -35,13 +35,14 @@ ResourceLoaderManager="*res://scenes/core/resource_loader_manager.gd"
 GameDataManager="*res://scenes/core/game_data_manager.gd"
 ConfigManager="*res://scenes/core/config_manager.gd"
 SaveLoadManager="*res://scenes/core/save_load_manager.gd"
+SceneManager="*res://scenes/core/scene_manager.gd"
+UiManager="*res://scenes/core/ui/ui_manager.tscn"
 MapLoaderManager="*res://scenes/core/map_loader_manager.gd"
 GridManager="*res://scenes/core/grid_manager.gd"
 GameManager="*res://scenes/core/game_manager.gd"
 MapManager="*res://scenes/core/map_manager.gd"
 PlayerManager="*res://scenes/core/player_manager.gd"
 DebugTerminal="*res://scenes/debug/DebugTerminal.tscn"
-UiManager="*res://scenes/core/ui/ui_manager.gd"
 
 [display]
 
@@ -54,7 +55,7 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/GnumarusStaticDataImporter/plugin.cfg", "res://addons/godot-sqlite/plugin.cfg", "res://addons/resources_spreadsheet_view/plugin.cfg")
+enabled=PackedStringArray("res://addons/GnumarusStaticDataImporter/plugin.cfg", "res://addons/godot-sqlite/plugin.cfg", "res://addons/godot_object_serializer/plugin.cfg", "res://addons/resources_spreadsheet_view/plugin.cfg")
 
 [input]
 
@@ -63,3 +64,8 @@ ui_debug_terminal={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194306,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
+
+[internationalization]
+
+locale/translations=PackedStringArray("res://locale/ui_translations.de.translation", "res://locale/ui_translations.en.translation", "res://locale/ui_translations.es.translation", "res://locale/ui_translations.fr.translation", "res://locale/ui_translations.ja.translation", "res://locale/ui_translations.ko.translation", "res://locale/ui_translations.pt.translation", "res://locale/ui_translations.ru.translation", "res://locale/ui_translations.zh.translation", "res://locale/game_data_translations.de.translation", "res://locale/game_data_translations.en.translation", "res://locale/game_data_translations.es.translation", "res://locale/game_data_translations.fr.translation", "res://locale/game_data_translations.ja.translation", "res://locale/game_data_translations.ko.translation", "res://locale/game_data_translations.pt.translation", "res://locale/game_data_translations.ru.translation", "res://locale/game_data_translations.zh.translation")
+locale/test="ja"

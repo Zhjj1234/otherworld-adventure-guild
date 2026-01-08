@@ -1,0 +1,55 @@
+[gd_scene load_steps=2 format=3 uid="uid://nrd5lrhgfa4"]
+
+[ext_resource type="Script" uid="uid://dhnhov5ibgwgv" path="res://scenes/start/ui/game_start_menu/game_start_menu_ui.gd" id="1_v2qyc"]
+
+[node name="GameStartMenuUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_v2qyc")
+metadata/_custom_type_script = "uid://dwfp4bsyhgn60"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/v_separation = 30
+
+[node name="Play" type="Button" parent="CenterContainer/GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "ui_play"
+
+[node name="Option" type="Button" parent="CenterContainer/GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "ui_option"
+
+[node name="Quit" type="Button" parent="CenterContainer/GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "ui_quit"

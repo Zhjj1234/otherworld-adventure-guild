@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="SceneConfig" load_steps=5 format=3 uid="uid://cm3j3kvch7xxe"]
+
+[ext_resource type="Script" uid="uid://ioy8gswfsrq2" path="res://res/config/scene_config/type/game_scene_data.gd" id="1_okjk5"]
+[ext_resource type="Script" uid="uid://d3oibdfkh68j5" path="res://res/config/scene_config/type/scene_config.gd" id="2_iotdk"]
+
+[sub_resource type="Resource" id="Resource_okjk5"]
+script = ExtResource("1_okjk5")
+game_scene_id = "game_start"
+game_scene_name = "game_start"
+game_scene_scene_path = "res://scenes/start/game_start.tscn"
+metadata/_custom_type_script = "uid://ioy8gswfsrq2"
+
+[sub_resource type="Resource" id="Resource_iotdk"]
+script = ExtResource("1_okjk5")
+game_scene_id = "game_main"
+game_scene_name = "game_main"
+game_scene_scene_path = "res://scenes/main/game_main.tscn"
+metadata/_custom_type_script = "uid://ioy8gswfsrq2"
+
+[resource]
+script = ExtResource("2_iotdk")
+game_scene_data_list = Array[ExtResource("1_okjk5")]([SubResource("Resource_okjk5"), SubResource("Resource_iotdk")])
+metadata/_custom_type_script = "uid://d3oibdfkh68j5"

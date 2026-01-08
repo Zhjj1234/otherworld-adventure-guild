@@ -3,7 +3,7 @@ extends Node
 var _map_config: MapConfig
 
 func _ready() -> void:
-	_map_config = ResourceLoader.load("res://res/config/map_config/tres/map_config.tres")
+	_map_config = preload("res://res/config/map_config/tres/map_config.tres")
 
 # ==================== MapConfig专属接口 ====================
 func get_map_config() -> MapConfig:

@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://c5ffxiq2084n1"]
-
-[ext_resource type="Script" uid="uid://ca8x0s5jjkpau" path="res://scenes/core/ui/ui_input_blocker.gd" id="1_f7fsp"]
-
-[node name="UiInputBlocker" type="Node"]
-script = ExtResource("1_f7fsp")

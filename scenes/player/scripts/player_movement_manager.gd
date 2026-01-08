@@ -116,6 +116,7 @@ func move_to(coords: Vector2i):
 
 #* 到达目标位置时的回调函数
 func _on_reach_target():
+	GameDataManager.set_player_current_position(_current_position)
 	print("🏁  已到达终点: ", _current_position, " ✅")
 	#* 发出到达目标位置信号
 	reach_target.emit(_current_position)
@@ -127,7 +128,8 @@ func _on_player_input_manager_grid_clicked(grid_pos: Vector2i) -> void:
 	move_to(grid_pos)
 
 #* 设置玩家位置
-func set_player_position(coords: Vector2i) -> void:
+func _set_player_position(coords: Vector2i) -> void:
+	GameDataManager.set_player_current_position(Vector2(coords.x, coords.y))
 	_current_position = Vector2(coords.x, coords.y)
 	_target_position = _current_position
 	_final_position = coords

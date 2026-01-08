@@ -1,8 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://bdq5nolrpvr8t"]
+[gd_scene load_steps=6 format=3 uid="uid://bdq5nolrpvr8t"]
 
 [ext_resource type="Script" uid="uid://bhfhtih14slg" path="res://scenes/main/game_main.gd" id="1_38ulp"]
 [ext_resource type="Script" uid="uid://cuqkrnjsmbvkm" path="res://scenes/main/map_container.gd" id="2_f0wmx"]
-[ext_resource type="PackedScene" uid="uid://c5ffxiq2084n1" path="res://scenes/core/ui/ui_input_blocker.tscn" id="3_by5c5"]
 [ext_resource type="TileSet" uid="uid://beadik6quts5m" path="res://assets/tilesets/directional.tres" id="3_f0wmx"]
 [ext_resource type="Script" uid="uid://dj88mc532wsbj" path="res://scenes/map/scripts/layer_grid_path.gd" id="3_s20gs"]
 [ext_resource type="PackedScene" uid="uid://5uxwgj5upgww" path="res://scenes/player/player_manager.tscn" id="4_qyehv"]
@@ -24,6 +23,3 @@ script = ExtResource("3_s20gs")
 
 [node name="Player" parent="Stage" instance=ExtResource("4_qyehv")]
 unique_name_in_owner = true
-
-[node name="UiInputBlocker" parent="Stage" instance=ExtResource("3_by5c5")]
-input_group_name = "stage_input"

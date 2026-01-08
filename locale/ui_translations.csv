@@ -1,0 +1,9 @@
+key,en,zh,ja,ko,es,fr,de,pt,ru
+ui_select_game_save,Select Game Save,选择游戏存档,ゲームセーブを選択,게임 세이브 선택,Seleccionar Guardado,Sélectionner la Sauvegarde,Spielstand auswählen,Selecionar Salvar,Выбрать сохранение
+ui_back,Back,返回,戻る,뒤로,Atrás,Retour,Zurück,Voltar,Назад
+ui_play,Play,开始,プレイ,플레이,Jugar,Jouer,Spielen,Jogar,Играть
+ui_option,Option,选项,オプション,옵션,Opciones,Options,Optionen,Opções,Опции
+ui_quit,Quit,退出,終了,종료,Salir,Quitter,Beenden,Sair,Выйти
+ui_slot_format,Slot {0} - {1}\n{2},槽位 {0} - {1}\n{2},スロット {0} - {1}\n{2},슬롯 {0} - {1}\n{2},Slot {0} - {1}\n{2},Slot {0} - {1}\n{2},Slot {0} - {1}\n{2},Slot {0} - {1}\n{2},Слот {0} - {1}\n{2}
+ui_slot_empty,Slot {0} is empty\nClick to start a new game,槽位 {0} 为空\n点击开始新游戏,スロット {0} は空です\n新しいゲームを開始するにはクリック,슬롯 {0} 가 비어있음\n새 게임을 시작하려면 클릭,Slot {0} está vacío\nHaz clic para iniciar un nuevo juego,Slot {0} est vide\nCliquez pour commencer une nouvelle partie,Slot {0} ist leer\nKlicken Sie um ein neues Spiel zu starten,Slot {0} está vazio\nClique para começar um novo jogo,Slot {0} пустой\nНажмите чтобы начать новую игру
+

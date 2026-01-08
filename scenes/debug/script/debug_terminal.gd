@@ -3,7 +3,6 @@ extends CanvasLayer
 @onready var debug_terminal_panel: Panel = $Panel
 @onready var command_input: LineEdit = %CommandInput
 @onready var game_manager: GameManager = get_node("/root/GameManager")  #* 全局节点路径
-@onready var ui_input_blocker: UIInputBlocker = $UiInputBlocker
 
 var is_active: bool = false
 
@@ -31,7 +30,6 @@ func _activate_terminal():
 	command_input.grab_focus()
 	#* 隐藏鼠标并锁定（可选，根据游戏类型调整）
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-	ui_input_blocker.push_to_ui_manager_stack()
 
 func _deactivate_terminal():
 	debug_terminal_panel.hide()
@@ -39,7 +37,6 @@ func _deactivate_terminal():
 	#* 恢复鼠标和输入
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	is_active = false
-	ui_input_blocker.pop_from_ui_manager_stack()
 
 func _on_command_submitted(command: String):
 	#* 分割命令和参数（如 "move_to 100 200" → ["move_to", "100", "200"]）

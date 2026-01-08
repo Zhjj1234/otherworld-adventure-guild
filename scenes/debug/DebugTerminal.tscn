@@ -1,7 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://bflurysl47nfn"]
+[gd_scene load_steps=6 format=3 uid="uid://bflurysl47nfn"]
 
 [ext_resource type="Script" uid="uid://drfmc16po1gj1" path="res://scenes/debug/script/debug_terminal.gd" id="1_jlrcy"]
-[ext_resource type="PackedScene" uid="uid://c5ffxiq2084n1" path="res://scenes/core/ui/ui_input_blocker.tscn" id="2_pyonv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e7cgt"]
 bg_color = Color(0, 0, 0, 0.3254902)
@@ -15,11 +14,6 @@ bg_color = Color(0, 0, 0, 0.3254902)
 [node name="DebugTerminal" type="CanvasLayer"]
 layer = 10
 script = ExtResource("1_jlrcy")
-
-[node name="UiInputBlocker" parent="." instance=ExtResource("2_pyonv")]
-input_group_name = "debug_terminal"
-ignore_handle_ui_input_warning = true
-ignore_input_nodes_warning = true
 
 [node name="Panel" type="Panel" parent="."]
 z_index = 999

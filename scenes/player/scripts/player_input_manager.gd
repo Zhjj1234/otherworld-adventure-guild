@@ -9,7 +9,7 @@ signal grid_moved(grid_pos: Vector2i) # * 鼠标移动到某格子
 var _last_grid_pos: Vector2i = Vector2i(-1, -1)
 
 #* 2. 检测鼠标左键点击
-func handle_ui_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if event is InputEventMouse:
 		var mouse_world_pos = get_global_mouse_position()
 		var click_grid = GridManager.world_to_grid(mouse_world_pos)

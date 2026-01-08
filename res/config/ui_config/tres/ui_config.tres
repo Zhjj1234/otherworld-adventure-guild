@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="UIConfig" load_steps=5 format=3 uid="uid://bo3epes213hx6"]
+
+[ext_resource type="Script" uid="uid://m0p4k5f48erj" path="res://res/config/ui_config/type/game_scene_ui_data.gd" id="2_2a7i2"]
+[ext_resource type="Script" uid="uid://bq4426nwie7uw" path="res://res/config/ui_config/type/ui_config.gd" id="2_v6l35"]
+
+[sub_resource type="Resource" id="Resource_s0k3d"]
+script = ExtResource("2_2a7i2")
+ui_id = "game_start_menu_ui"
+ui_name = "game_start_menu_ui"
+ui_path = "res://scenes/start/ui/game_start_menu/game_start_menu_ui.tscn"
+is_display_on_load = true
+scene_id = "game_start"
+metadata/_custom_type_script = "uid://m0p4k5f48erj"
+
+[sub_resource type="Resource" id="Resource_v6l35"]
+script = ExtResource("2_2a7i2")
+ui_id = "game_list_ui"
+ui_name = "game_list_ui"
+ui_path = "res://scenes/start/ui/game_list/game_list_ui.tscn"
+scene_id = "game_start"
+metadata/_custom_type_script = "uid://m0p4k5f48erj"
+
+[resource]
+script = ExtResource("2_v6l35")
+game_scene_ui_data_list = Array[ExtResource("2_2a7i2")]([SubResource("Resource_s0k3d"), SubResource("Resource_v6l35")])
+metadata/_custom_type_script = "uid://bq4426nwie7uw"
