@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://clf52v5vxlyl"]
+
+[ext_resource type="Script" uid="uid://ja4uy5lobp6g" path="res://scenes/core/ui/focus_button_base.gd" id="1_pmn0g"]
+
+[node name="FocusButtonBase" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_pmn0g")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+text = "test"

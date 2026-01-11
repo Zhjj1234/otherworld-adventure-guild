@@ -1,0 +1,3 @@
+extends FocusableBase
+
+class_name BaseFocusButton

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dhnhov5ibgwgv" path="res://scenes/start/ui/game_start_menu/game_start_menu_ui.gd" id="1_v2qyc"]
 
-[node name="GameStartMenuUI" type="Control"]
+[node name="GameStartMenuUI" type="Control" node_paths=PackedStringArray("_default_focus_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -10,6 +10,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_v2qyc")
+_default_focus_button = NodePath("CenterContainer/GridContainer/Play")
 metadata/_custom_type_script = "uid://dwfp4bsyhgn60"
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -37,6 +38,8 @@ theme_override_constants/v_separation = 30
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 80)
 layout_mode = 2
+focus_neighbor_top = NodePath("../Quit")
+focus_neighbor_bottom = NodePath("../Option")
 theme_override_font_sizes/font_size = 28
 text = "ui_play"
 
@@ -44,6 +47,8 @@ text = "ui_play"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 80)
 layout_mode = 2
+focus_neighbor_top = NodePath("../Play")
+focus_neighbor_bottom = NodePath("../Quit")
 theme_override_font_sizes/font_size = 28
 text = "ui_option"
 
@@ -51,5 +56,7 @@ text = "ui_option"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 80)
 layout_mode = 2
+focus_neighbor_top = NodePath("../Option")
+focus_neighbor_bottom = NodePath("../Play")
 theme_override_font_sizes/font_size = 28
 text = "ui_quit"

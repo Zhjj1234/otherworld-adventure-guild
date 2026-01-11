@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://dsqb4h2xn0uo5" path="res://scenes/start/ui/game_list/game_list_ui.gd" id="1_pfp7e"]
 [ext_resource type="Theme" uid="uid://ceeykehjb6tpg" path="res://theme/default_theme.tres" id="2_0l15i"]
 
-[node name="GameListUi" type="Control"]
+[node name="GameListUi" type="Control" node_paths=PackedStringArray("_default_focus_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,6 +12,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_0l15i")
 script = ExtResource("1_pfp7e")
+_default_focus_button = NodePath("CenterContainer/Control/VBoxContainer/Slot1Button")
 metadata/_custom_type_script = "uid://dwfp4bsyhgn60"
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -47,6 +48,7 @@ size_flags_vertical = 3
 
 [node name="TitleLabel" type="Label" parent="CenterContainer/Control/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 6
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "ui_select_game_save"
@@ -55,13 +57,21 @@ vertical_alignment = 1
 
 [node name="Slot1Button" type="Button" parent="CenterContainer/Control/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_top = NodePath("../BackButton")
+focus_neighbor_bottom = NodePath("../Slot2Button")
 
 [node name="Slot2Button" type="Button" parent="CenterContainer/Control/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_top = NodePath("../Slot1Button")
+focus_neighbor_bottom = NodePath("../Slot3Button")
 
 [node name="Slot3Button" type="Button" parent="CenterContainer/Control/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_top = NodePath("../Slot2Button")
+focus_neighbor_bottom = NodePath("../BackButton")
 
 [node name="BackButton" type="Button" parent="CenterContainer/Control/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_top = NodePath("../Slot3Button")
+focus_neighbor_bottom = NodePath("../Slot1Button")
 text = "ui_back"

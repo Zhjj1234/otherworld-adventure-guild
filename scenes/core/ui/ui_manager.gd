@@ -15,7 +15,7 @@ func _ready() -> void:
 	#* 预加载UI配置资源
 	_game_scene_ui_cache = preload("res://res/config/ui_config/tres/ui_config.tres")
 	#* 监听场景切换事件
-	SceneManager.scene_changed.connect(_on_scene_changed)
+	# SceneManager.scene_changed.connect(_on_scene_changed)
 
 #* ============================ UI加载、卸载、显示、隐藏、切换方法 ============================
 
@@ -132,7 +132,7 @@ func _get_is_lazy_load(ui_id: String) -> bool:
 
 #* 当场景切换时调用，卸载当前场景的所有UI实例并加载新场景的所有UI实例
 #* @param scene_id 新场景的唯一标识符
-func _on_scene_changed(scene_id: String):
+func load_uis(scene_id: String):
 	#* 卸载当前场景的所有UI实例
 	_unload_all_uis()
 	#* 加载新场景的所有UI实例
@@ -141,19 +141,27 @@ func _on_scene_changed(scene_id: String):
 #* ==================================== UI栈管理方法 ====================================
 func push_ui(ui_id: String):
 	if _ui_stack.find(ui_id) != -1:
+		print("UI: [" + ui_id + "] already in stack")
 		return
 	#* 如果UI实例不存在，则加载UI实例
 	if _game_scene_ui_instance_dict.has(ui_id) and _game_scene_ui_instance_dict[ui_id] == null:
 		_load_ui_instance(ui_id)
 	#* 将UI ID压入栈顶
 	_ui_stack.append(ui_id)
-	var ui_instance: BaseGameUI = _game_scene_ui_instance_dict[ui_id]
-	ui_instance.show_game_ui()
+	var current_ui_instance: BaseGameUI = _game_scene_ui_instance_dict[ui_id]
+	#* 确保UI实例存在
+	if current_ui_instance == null:
+		print("UI: [" + ui_id + "] not found")
+		return
+	current_ui_instance.show_game_ui()
+	#* 设置栈顶的UI ID的默认焦点
+	current_ui_instance.set_set_default_focus()
 	#* 输出UI压栈信息
 	print("UI: [" + ui_id + "] pushed")
 	
 func pop_ui() -> String:
 	if _ui_stack.size() == 0:
+		print("UI: stack is empty")
 		return ""
 	#* 获取栈顶的UI ID
 	var ui_id: String = _ui_stack.pop_back()
@@ -162,6 +170,16 @@ func pop_ui() -> String:
 		_unload_ui_instance(ui_id)
 	var ui_instance: BaseGameUI = _game_scene_ui_instance_dict[ui_id]
 	ui_instance.hide_game_ui()
+	#* 设置栈顶的UI ID的默认焦点
+	var current_ui_instance: BaseGameUI = get_current_ui_instance()
+	#* 如果栈顶的UI实例存在，则设置默认焦点
+	if current_ui_instance != null:
+		current_ui_instance.set_set_default_focus()
 	#* 输出UI弹栈信息
 	print("UI: [" + ui_id + "] popped")
 	return ui_id
+
+func get_current_ui_instance() -> BaseGameUI:
+	if _ui_stack.size() == 0:
+		return null
+	return _game_scene_ui_instance_dict[_ui_stack.back()]

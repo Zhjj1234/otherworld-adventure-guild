@@ -34,8 +34,8 @@ EventBus="*res://scenes/core/event_bus.gd"
 ResourceLoaderManager="*res://scenes/core/resource_loader_manager.gd"
 GameDataManager="*res://scenes/core/game_data_manager.gd"
 ConfigManager="*res://scenes/core/config_manager.gd"
-SaveLoadManager="*res://scenes/core/save_load_manager.gd"
 SceneManager="*res://scenes/core/scene_manager.gd"
+SaveLoadManager="*res://scenes/core/save_load_manager.gd"
 UiManager="*res://scenes/core/ui/ui_manager.tscn"
 MapLoaderManager="*res://scenes/core/map_loader_manager.gd"
 GridManager="*res://scenes/core/grid_manager.gd"
@@ -68,4 +68,4 @@ ui_debug_terminal={
 [internationalization]
 
 locale/translations=PackedStringArray("res://locale/ui_translations.de.translation", "res://locale/ui_translations.en.translation", "res://locale/ui_translations.es.translation", "res://locale/ui_translations.fr.translation", "res://locale/ui_translations.ja.translation", "res://locale/ui_translations.ko.translation", "res://locale/ui_translations.pt.translation", "res://locale/ui_translations.ru.translation", "res://locale/ui_translations.zh.translation", "res://locale/game_data_translations.de.translation", "res://locale/game_data_translations.en.translation", "res://locale/game_data_translations.es.translation", "res://locale/game_data_translations.fr.translation", "res://locale/game_data_translations.ja.translation", "res://locale/game_data_translations.ko.translation", "res://locale/game_data_translations.pt.translation", "res://locale/game_data_translations.ru.translation", "res://locale/game_data_translations.zh.translation")
-locale/test="ja"
+locale/test="zh"

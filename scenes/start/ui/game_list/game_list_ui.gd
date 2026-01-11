@@ -11,6 +11,7 @@ class_name GameListUi
 @onready var back_button := $CenterContainer/Control/VBoxContainer/BackButton
 
 func _ready() -> void:
+	
 	#* 连接信号
 	for i in range(slot_buttons.size()):
 		slot_buttons[i].pressed.connect(func(): _on_slot_button_pressed(i + 1))
@@ -32,9 +33,9 @@ func _update_ui_from_slot_metadata() -> void:
 		if slot_data.is_used:
 			#* 格式化时间戳
 			var formatted_date = Time.get_datetime_string_from_unix_time(slot_data.timestamp)
-			slot_buttons[i].text = tr("ui_slot_format").format([slot_id, tr(slot_data.save_name), formatted_date])
+			slot_buttons[i].set_text(tr("ui_slot_format").format([slot_id, tr(slot_data.save_name), formatted_date]))
 		else:
-			slot_buttons[i].text = tr("ui_slot_empty").format([slot_id])
+			slot_buttons[i].set_text(tr("ui_slot_empty").format([slot_id]))
 
 #* 槽位按钮点击事件
 func _on_slot_button_pressed(slot_id: int) -> void:

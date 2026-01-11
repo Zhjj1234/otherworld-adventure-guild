@@ -19,6 +19,7 @@ func to_game_main_scene() -> void:
 
 #* 通用的场景切换函数 (公共API)
 func change_scene(scene_id: String) -> void:
+	print("\nScene: [" + get_current_scene_id() + "] switching to [" + scene_id + "]")
 	# 1. 查找数据
 	var target_scene_data: GameSceneData = get_game_scene_data_by_id(scene_id)
 	
@@ -34,17 +35,18 @@ func change_scene(scene_id: String) -> void:
 	await get_tree().scene_changed
 	# 5. 执行场景切换操作
 	var current_scene = get_tree().current_scene
-	
+	# await current_scene.ready
 	# 6. 发出信号，通知所有关心这个事件的模块
-	print("Scene: [" + _get_current_scene_id() + " " + current_scene.to_string() + "] loaded")
-	scene_changed.emit(_get_current_scene_id())
+	print("Scene: [" + get_current_scene_id() + " " + current_scene.to_string() + "] loaded\n")
+	scene_changed.emit(get_current_scene_id())
+	
 
 #* 获取当前场景的完整数据 (内部/紧密耦合使用)
 func _get_current_scene_data() -> GameSceneData:
 	return _current_scene_data
 
 #* 获取当前场景的ID (对外接口)
-func _get_current_scene_id() -> String:
+func get_current_scene_id() -> String:
 	if _current_scene_data:
 		return _current_scene_data.game_scene_id
 	return ""
