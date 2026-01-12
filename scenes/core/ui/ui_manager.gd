@@ -1,5 +1,5 @@
 #* UI管理器，负责游戏场景UI的加载、卸载和管理
-extends Node
+extends CanvasLayer
 
 #* UI配置缓存，存储所有UI的配置信息
 var _game_scene_ui_cache: UIConfig
@@ -100,11 +100,21 @@ func _get_ui_ids_by_scene_id(scene_id: String) -> Array[String]:
 #* @return UI的资源路径
 func _get_ui_path_by_ui_id(ui_id: String) -> String:
 	#* 遍历配置数据，查找匹配的UI路径
+	var game_scene_ui_data: GameSceneUIData = _get_game_scene_ui_data_by_ui_id(ui_id)
+	if game_scene_ui_data == null:
+		return ""
+	return game_scene_ui_data.ui_path
+
+#* 根据ui_id获取_game_scene_ui_cache中对应的GameSceneUIData
+#* @param ui_id UI的唯一标识符
+#* @return 对应的GameSceneUIData对象
+func _get_game_scene_ui_data_by_ui_id(ui_id: String) -> GameSceneUIData:
+	#* 遍历配置数据，查找匹配的UI路径
 	for game_scene_ui_data: GameSceneUIData in _game_scene_ui_cache.game_scene_ui_data_list:
 		if game_scene_ui_data.ui_id == ui_id:
-			return game_scene_ui_data.ui_path
-	#* 未找到则返回空字符串
-	return ""
+			return game_scene_ui_data
+	#* 未找到则返回null
+	return null
 
 #* 根据ui_id获取对应的UI是否在加载时显示
 #* @param ui_id UI的唯一标识符
@@ -133,6 +143,8 @@ func _get_is_lazy_load(ui_id: String) -> bool:
 #* 当场景切换时调用，卸载当前场景的所有UI实例并加载新场景的所有UI实例
 #* @param scene_id 新场景的唯一标识符
 func load_uis(scene_id: String):
+	#* 清空UI栈
+	_ui_stack.clear()
 	#* 卸载当前场景的所有UI实例
 	_unload_all_uis()
 	#* 加载新场景的所有UI实例
@@ -153,18 +165,26 @@ func push_ui(ui_id: String):
 	if current_ui_instance == null:
 		print("UI: [" + ui_id + "] not found")
 		return
+	current_ui_instance.move_to_front()
 	current_ui_instance.show_game_ui()
 	#* 设置栈顶的UI ID的默认焦点
 	current_ui_instance.set_set_default_focus()
 	#* 输出UI压栈信息
 	print("UI: [" + ui_id + "] pushed")
-	
+
+#* 弹出栈顶的UI ID
+#* @return 弹出的UI ID
 func pop_ui() -> String:
 	if _ui_stack.size() == 0:
 		print("UI: stack is empty")
 		return ""
 	#* 获取栈顶的UI ID
-	var ui_id: String = _ui_stack.pop_back()
+	var ui_id: String = _ui_stack.back()
+	var game_scene_ui_data: GameSceneUIData = _get_game_scene_ui_data_by_ui_id(ui_id)
+	if game_scene_ui_data.is_only_push:
+		print("UI: [" + ui_id + "] is only push")
+		return ""
+	_ui_stack.pop_back()
 	#* 如果UI实例不存在，则卸载UI实例
 	if _game_scene_ui_instance_dict.has(ui_id) and _game_scene_ui_instance_dict[ui_id] == null:
 		_unload_ui_instance(ui_id)
@@ -179,7 +199,12 @@ func pop_ui() -> String:
 	print("UI: [" + ui_id + "] popped")
 	return ui_id
 
+#* 获取栈顶的UI实例
 func get_current_ui_instance() -> BaseGameUI:
 	if _ui_stack.size() == 0:
 		return null
 	return _game_scene_ui_instance_dict[_ui_stack.back()]
+
+#* 获取栈顶的UI ID
+func get_current_ui_id() -> String:
+	return _ui_stack.back()

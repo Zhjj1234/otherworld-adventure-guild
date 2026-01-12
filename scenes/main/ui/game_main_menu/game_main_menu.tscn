@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cvu5hccqk8bke" path="res://scenes/main/ui/game_main_menu/game_main_menu.gd" id="1_1fmsl"]
 
-[node name="GameMainMenu" type="Control"]
+[node name="GameMainMenu" type="Control" node_paths=PackedStringArray("_default_focus_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -10,3 +10,46 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_1fmsl")
+_default_focus_button = NodePath("CenterContainer/ButtonContainer/ContinueButton")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ButtonContainer" type="GridContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/v_separation = 30
+
+[node name="ContinueButton" type="Button" parent="CenterContainer/ButtonContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "ui_continue_game"
+
+[node name="OptionsButton" type="Button" parent="CenterContainer/ButtonContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "ui_option"
+
+[node name="ReturnToMainButton" type="Button" parent="CenterContainer/ButtonContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "ui_return_main"

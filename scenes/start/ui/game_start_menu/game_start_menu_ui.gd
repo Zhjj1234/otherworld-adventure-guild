@@ -11,7 +11,7 @@ func _ready() -> void:
 	quit_button.pressed.connect(_on_quit_button_pressed)
 
 func _on_play_button_pressed() -> void:
-	UiManager.push_ui("game_list_ui")
+	UIManager.push_ui("game_list_ui")
 
 func _on_option_button_pressed() -> void:
 	pass

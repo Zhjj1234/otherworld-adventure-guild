@@ -43,4 +43,4 @@ func _on_slot_button_pressed(slot_id: int) -> void:
 
 #* 返回按钮点击事件
 func _on_back_button_pressed() -> void:
-	UiManager.pop_ui()
+	UIManager.pop_ui()

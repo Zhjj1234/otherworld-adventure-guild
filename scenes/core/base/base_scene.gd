@@ -5,4 +5,4 @@ func _ready() -> void:
 	_ui_init()
 
 func _ui_init() -> void:
-	UiManager.load_uis(SceneManager.get_current_scene_id())
+	UIManager.load_uis(SceneManager.get_current_scene_id())

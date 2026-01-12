@@ -11,13 +11,20 @@ var _player_data
 @onready var player_core: PlayerCore = %PlayerCore
 
 #* 玩家移动速度常量，单位：格子/秒
-const PLAYER_SPEED: float = 1 / 0.1
+const PLAYER_SPEED: float = 1 / 0.125
 const MOVE_STEP: int = 30
 
 #* 移动状态枚举
 enum MOVE_STATUS {
 	MOVING, # * 正在移动
 	STOP # * 停止状态
+}
+enum INPUT_DIR {
+	NONE,
+	UP,
+	DOWN,
+	RIGHT,
+	LEFT
 }
 
 
@@ -35,6 +42,12 @@ var _target_position: Vector2 = Vector2.ZERO
 var _current_position: Vector2 = Vector2.ZERO
 #* 移动状态变量
 # var _move_status: MOVE_STATUS = MOVE_STATUS.STOP
+var input_dir: INPUT_DIR = INPUT_DIR.NONE:
+	get:
+		return input_dir
+	set(value):
+		if input_dir != value:
+			input_dir = value
 
 var move_status: MOVE_STATUS = MOVE_STATUS.STOP:
 	get:
@@ -61,9 +74,21 @@ func _ready() -> void:
 #* 每帧更新玩家位置和UI显示
 #* @param delta: float - 帧间隔时间
 func _process(delta: float) -> void:
+	_handle_movement_input()
 	_update_position(delta)
 	#* 更新玩家UI位置
 	player_ui_mamager.set_real_position(_current_position)
+
+func _handle_movement_input():
+	if input_dir != INPUT_DIR.NONE and move_status == MOVE_STATUS.STOP:
+		if input_dir == INPUT_DIR.UP:
+			move_to(_current_position + Vector2(0, -1))
+		if input_dir == INPUT_DIR.DOWN:
+			move_to(_current_position + Vector2(0, 1))
+		if input_dir == INPUT_DIR.RIGHT:
+			move_to(_current_position + Vector2(1, 0))
+		if input_dir == INPUT_DIR.LEFT:
+			move_to(_current_position + Vector2(-1, 0))
 
 #* 更新玩家位置的内部函数
 #* 根据移动状态和速度计算当前位置
@@ -95,6 +120,8 @@ func move_to(coords: Vector2i):
 	#* - MOVE_STEP: 最大步长，限制路径搜索的范围
 	#* - true: 是否允许对角线移动
 	var path = _get_passable_path(_current_position, coords)
+	if path.size() == 1:
+		return
 	print("📝 总移动路径: ", path)
 	#* 保存最终目标位置，用于检测路径是否仍然有效
 	_final_position = path.back()

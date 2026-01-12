@@ -12,5 +12,7 @@ class_name GameSceneUIData
 @export var is_lazy_load: bool
 #* 是否在加载场景时显示
 @export var is_display_on_load: bool
+#* 
+@export var is_only_push: bool
 #* UI所属的场景ID
 @export var scene_id: String

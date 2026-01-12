@@ -61,6 +61,9 @@ func get_default_game_data_duplicate() -> GameData:
 
 # ==================== PlayerData专属接口 ====================
 
+signal player_current_stamina_updated(player_current_stamina: float)
+signal player_gold_updated(player_gold: int)
+
 #* 获取当前玩家位置
 func get_player_current_position() -> Vector2:
 	return get_current_game_data().player_global_data.current_position
@@ -81,3 +84,12 @@ func get_player_current_stamina() -> float:
 
 func set_player_current_stamina(stamina: float) -> void:
 	get_current_game_data().player_global_data.current_stamina = stamina
+	player_current_stamina_updated.emit(stamina)
+
+#* 获取当前玩家金币
+func get_player_gold() -> int:
+	return get_current_game_data().player_global_data.gold
+
+func set_player_gold(gold: int) -> void:
+	get_current_game_data().player_global_data.gold = clampi(gold, 0, 99999)
+	player_gold_updated.emit(gold)
