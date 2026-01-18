@@ -1,0 +1,23 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://cosw85x0juqvo"]
+
+[ext_resource type="Texture2D" uid="uid://5ck5sc4s2dwv" path="res://assets/base/WHITE_RECT.png" id="1_hjp4a"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wu6s8"]
+resource_name = "interacter"
+texture = ExtResource("1_hjp4a")
+0:0/0 = 0
+0:0/0/modulate = Color(0, 1, 0, 0.22745098)
+1:0/0 = 0
+2:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+
+[resource]
+sources/0 = SubResource("TileSetAtlasSource_wu6s8")

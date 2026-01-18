@@ -44,6 +44,8 @@ GridManager="*res://scenes/core/grid_manager.gd"
 GameManager="*res://scenes/core/game_manager.gd"
 MapManager="*res://scenes/core/map_manager.gd"
 PlayerManager="*res://scenes/core/player_manager.gd"
+ConditionVerifier="*res://scenes/core/condition_verifier.gd"
+InteracterManager="*res://scenes/core/interacter_manager.gd"
 
 [display]
 

@@ -32,7 +32,7 @@ enum INPUT_DIR {
 #* @param coords: Vector2i - 到达的目标坐标
 signal reach_target(coords: Vector2i)
 # TODO 用于地图高亮
-signal button_coords_changed(path: Array, passable_path: Array)
+# signal button_coords_changed(path: Array, passable_path: Array)
 signal move_status_changed(status: MOVE_STATUS)
 signal player_movement_manager_registered(player_movement_manager: PlayerMovementManager)
 
@@ -65,6 +65,7 @@ var _final_position: Vector2i = Vector2i.ZERO
 #* 获取玩家初始数据并设置初始状态
 func _ready() -> void:
 	player_movement_manager_registered.connect(PlayerManager._on_player_movement_manager_registered)
+	 #reach_target.connect(PlayerManager._on_reach_target)
 	# button_coords_changed.connect(MapManager.layer_grid_path.rend_directional)
 	# move_status_changed.connect(MapManager.layer_grid_path._on_player_movement_manager_move_status_changed)
 	
@@ -148,6 +149,7 @@ func _on_reach_target():
 	#* 发出到达目标位置信号
 	reach_target.emit(_current_position)
 
+
 #* 玩家输入管理器点击网格的回调函数
 func _on_player_input_manager_grid_clicked(grid_pos: Vector2i) -> void:
 	if move_status == MOVE_STATUS.MOVING:
@@ -201,5 +203,6 @@ func _get_passable_path(start: Vector2i, end: Vector2i) -> Array:
 
 func _exit_tree():
 	player_movement_manager_registered.disconnect(PlayerManager._on_player_movement_manager_registered)
+	 #reach_target.disconnect(PlayerManager._on_reach_target)
 	# button_coords_changed.disconnect(MapManager.layer_grid_path.rend_directional)
 	# move_status_changed.disconnect(MapManager.layer_grid_path._on_player_movement_manager_move_status_changed)

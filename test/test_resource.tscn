@@ -3,4 +3,20 @@
 [ext_resource type="Script" uid="uid://tt0r3n22dcyp" path="res://test/test_resource.gd" id="1_vkfki"]
 
 [node name="TestResource" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Level 4"
 script = ExtResource("1_vkfki")
+level_number = 4

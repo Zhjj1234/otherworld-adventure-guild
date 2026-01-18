@@ -93,3 +93,9 @@ func get_player_gold() -> int:
 func set_player_gold(gold: int) -> void:
 	get_current_game_data().player_global_data.gold = clampi(gold, 0, 99999)
 	player_gold_updated.emit(gold)
+
+func get_player_special_item_ids() -> Array[String]:
+	return get_current_game_data().player_global_data.special_item_ids
+
+func set_player_special_item_ids(item_ids: Array[String]) -> void:
+	get_current_game_data().player_global_data.special_item_ids = item_ids

@@ -14,7 +14,7 @@ var _slot_metadata_cache: Dictionary = {
 func _ready() -> void:
 	ObjectSerializer.register_script("GameData", GameData)
 	ObjectSerializer.register_script("PlayerGlobalData", PlayerGlobalData)
-	ObjectSerializer.register_script("Character", Character)
+	#ObjectSerializer.register_script("Character", Character)
 	#* 初始化槽位元数据缓存
 	_update_slot_metadata_cache_from_local()
 	pass

@@ -8,3 +8,5 @@ class_name PlayerGlobalData
 @export var max_stamina: float = 0.0
 @export var current_stamina: float = 0.0
 @export var gold: int = 0
+@export var team_character_ids: Array[String] = []
+@export var special_item_ids: Array[String] = []

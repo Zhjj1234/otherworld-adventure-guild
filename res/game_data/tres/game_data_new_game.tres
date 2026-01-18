@@ -1,8 +1,7 @@
-[gd_resource type="Resource" script_class="GameData" load_steps=5 format=3 uid="uid://bhdlylukklcgx"]
+[gd_resource type="Resource" script_class="GameData" load_steps=4 format=3 uid="uid://bhdlylukklcgx"]
 
 [ext_resource type="Script" uid="uid://b4gsxpkcbesj1" path="res://res/game_data/type/player_global_data.gd" id="1_acsk6"]
 [ext_resource type="Script" uid="uid://dsh6q1ax4cxtd" path="res://res/game_data/type/game_data.gd" id="2_qphvm"]
-[ext_resource type="Script" uid="uid://b3oc8u60icorv" path="res://res/game_data/type/character.gd" id="3_jy37l"]
 
 [sub_resource type="Resource" id="Resource_vb344"]
 script = ExtResource("1_acsk6")

@@ -7,11 +7,10 @@ class_name LayerManager
 #* @param layer_name 层名称
 #* @param coords 网格坐标
 #* @return 包含自定义数据的字典
-func get_tile_data(layer_name: String, coords: Vector2i) -> BaseTileData:
+func get_tile_data(layer_name: String, coords: Vector2i) -> Variant:
 	var tile_data: TileData = get_cell_tile_data(coords)
 	if tile_data is TileData:
 		var custom_data = tile_data.get_custom_data(layer_name)
-		if custom_data is BaseTileData:
-			return custom_data
+		return custom_data
 	return null
 	

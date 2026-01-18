@@ -30,3 +30,9 @@ visible = false
 tile_set = ExtResource("3_261eh")
 script = ExtResource("3_23esc")
 metadata/_custom_type_script = "uid://danw6rjobp0qi"
+
+[node name="InteractionLayer" type="TileMapLayer" parent="."]
+enabled = false
+tile_set = ExtResource("3_261eh")
+script = ExtResource("3_23esc")
+metadata/_custom_type_script = "uid://danw6rjobp0qi"

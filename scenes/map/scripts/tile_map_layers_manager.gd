@@ -24,31 +24,32 @@ func _set_layers():
 	for node in arr:
 		if node is LayerManager:
 			layers.append(node)
+	#* 倒序遍历，保证检测上层至下层顺序检测
+	layers.reverse()
 			#(node as LayerManager).init()
 
 #* 设置寻路功能函数
 #* 配置A*算法中的可通过性判断逻辑
 func _set_path_finder_func():
+	
 	GridManager.path_finder.set_is_passable_grid_inner(
 		func(coords: Vector2i) -> bool:
-			var has_passable = false
 			#* 遍历地面图层检查是否可通过
 			for layer: LayerManager in layers:
-				var tile_move_data: BaseTileData = layer.get_tile_data("move", coords)
+				var custom_data = layer.get_tile_data("is_passable", coords)
 				#* 如果没有移动权限，则返回false
-				if tile_move_data is TileMoveData:
-					if not tile_move_data.is_passable:
+				if custom_data is bool:
+					if not custom_data:
 						return false
 					else:
-						has_passable = true
-			if has_passable:
-				return true
+						return true
 			return false
 	)
 
 #* 设置所有瓦片的自定义数据
 #* 从游戏数据管理器获取图集信息，并设置到瓦片集中
 func _set_tile_datas():
+	return
 	var atlas_info_list = ConfigManager.get_atlas_info_list()
 	for atlas_info: AtlasInfo in atlas_info_list:
 		var source_id = atlas_info.source_id
