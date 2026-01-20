@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="ItemConfig" load_steps=6 format=3 uid="uid://busgjkduoppw2"]
+
+[ext_resource type="Script" uid="uid://dn1pglbdy2d4e" path="res://res/config/item/type/normal_item.gd" id="1_udmuv"]
+[ext_resource type="Script" uid="uid://cjjgdtv4peypn" path="res://res/config/item/type/item_config.gd" id="2_xqi2r"]
+[ext_resource type="Script" uid="uid://cupirt0keo28n" path="res://res/config/item/type/special_item.gd" id="3_a2tfk"]
+
+[sub_resource type="Resource" id="Resource_xqi2r"]
+script = ExtResource("1_udmuv")
+item_name = "wooden_sword_01"
+item_price = 10
+metadata/_custom_type_script = "uid://dn1pglbdy2d4e"
+
+[sub_resource type="Resource" id="Resource_udmuv"]
+script = ExtResource("3_a2tfk")
+item_name = "key_001"
+item_type = 1
+item_price = 10
+metadata/_custom_type_script = "uid://cupirt0keo28n"
+
+[resource]
+script = ExtResource("2_xqi2r")
+normal_item_list = Dictionary[String, ExtResource("1_udmuv")]({
+"wooden_sword_01": SubResource("Resource_xqi2r")
+})
+special_item_list = Dictionary[String, ExtResource("3_a2tfk")]({
+"key_001": SubResource("Resource_udmuv")
+})
+metadata/_custom_type_script = "uid://cjjgdtv4peypn"

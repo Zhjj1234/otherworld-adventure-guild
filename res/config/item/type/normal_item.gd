@@ -1,0 +1,2 @@
+extends BaseItem
+class_name NormalItem

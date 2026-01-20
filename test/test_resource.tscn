@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://bk6uyqw3806k1"]
+[gd_scene load_steps=6 format=3 uid="uid://bk6uyqw3806k1"]
 
-[ext_resource type="Script" uid="uid://tt0r3n22dcyp" path="res://test/test_resource.gd" id="1_vkfki"]
+[ext_resource type="Script" uid="uid://cgmt8emgommka" path="res://test/test_event_system.gd" id="1_4ujoi"]
+[ext_resource type="Script" uid="uid://dfkoauyfdp45v" path="res://scenes/core/event_system/event_node.gd" id="2_4ujoi"]
+[ext_resource type="Script" uid="uid://br44s2h6f4j62" path="res://test/event/test_event_A.gd" id="3_6m8e7"]
+[ext_resource type="Script" uid="uid://1isqtrtwe6rf" path="res://test/event/test_event_B.gd" id="4_xqelg"]
+[ext_resource type="Script" uid="uid://dta28i0a6tatc" path="res://test/event/test_event_C.gd" id="5_m2q3x"]
 
 [node name="TestResource" type="Node2D"]
 
@@ -18,5 +22,24 @@ custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Level 4"
-script = ExtResource("1_vkfki")
-level_number = 4
+script = ExtResource("1_4ujoi")
+
+[node name="EventNode" type="Node" parent="CanvasLayer/CenterContainer/Label" node_paths=PackedStringArray("bound_events")]
+script = ExtResource("2_4ujoi")
+event_expression = "EventA->EventB"
+bound_events = [NodePath("TestEventA"), NodePath("TestEventB"), NodePath("TestEventC")]
+
+[node name="TestEventA" type="Node" parent="CanvasLayer/CenterContainer/Label/EventNode"]
+script = ExtResource("3_6m8e7")
+event_name = &"EventA"
+metadata/_custom_type_script = "uid://br44s2h6f4j62"
+
+[node name="TestEventB" type="Node" parent="CanvasLayer/CenterContainer/Label/EventNode"]
+script = ExtResource("4_xqelg")
+event_name = &"EventB"
+metadata/_custom_type_script = "uid://1isqtrtwe6rf"
+
+[node name="TestEventC" type="Node" parent="CanvasLayer/CenterContainer/Label/EventNode"]
+script = ExtResource("5_m2q3x")
+event_name = &"EventC"
+metadata/_custom_type_script = "uid://dta28i0a6tatc"

@@ -30,8 +30,6 @@ enum INPUT_DIR {
 
 #* 到达目标位置时发出的信号
 #* @param coords: Vector2i - 到达的目标坐标
-signal reach_target(coords: Vector2i)
-# TODO 用于地图高亮
 # signal button_coords_changed(path: Array, passable_path: Array)
 signal move_status_changed(status: MOVE_STATUS)
 signal player_movement_manager_registered(player_movement_manager: PlayerMovementManager)
@@ -65,9 +63,6 @@ var _final_position: Vector2i = Vector2i.ZERO
 #* 获取玩家初始数据并设置初始状态
 func _ready() -> void:
 	player_movement_manager_registered.connect(PlayerManager._on_player_movement_manager_registered)
-	 #reach_target.connect(PlayerManager._on_reach_target)
-	# button_coords_changed.connect(MapManager.layer_grid_path.rend_directional)
-	# move_status_changed.connect(MapManager.layer_grid_path._on_player_movement_manager_move_status_changed)
 	
 	player_movement_manager_registered.emit(self)
 
@@ -113,7 +108,8 @@ func _update_position(delta: float):
 func move_to(coords: Vector2i):
 	#* 如果当前正在移动，则等待到达目标后再执行新的移动指令
 	if move_status == MOVE_STATUS.MOVING:
-		await reach_target
+		await EventBus.cell_interacted
+		
 	#* 使用A*算法寻找从当前位置到目标位置的路径
 	#* 参数说明：
 	#* - _current_position: 当前位置
@@ -138,7 +134,13 @@ func move_to(coords: Vector2i):
 		_target_position = path[1]
 		print("🗺️  移动路径: ", _current_position, " → ", _target_position)
 		#* 等待到达当前目标点的信号
-		await reach_target
+		var is_interacted = await EventBus.cell_interacted
+		if is_interacted:
+			#* 如果和格子发生了交互，则中断当前移动
+			print("🛑 已在 ", _current_position, " 发生了交互，中断移动")
+			move_status = MOVE_STATUS.STOP
+			path.clear()
+			return
 		#* 到达目标点后，移除路径中的第一个点，继续处理剩余路径
 		path.pop_front()
 
@@ -147,7 +149,7 @@ func _on_reach_target():
 	GameDataManager.set_player_current_position(_current_position)
 	print("🏁  已到达终点: ", _current_position, " ✅")
 	#* 发出到达目标位置信号
-	reach_target.emit(_current_position)
+	EventBus.reach_target.emit(_current_position)
 
 
 #* 玩家输入管理器点击网格的回调函数

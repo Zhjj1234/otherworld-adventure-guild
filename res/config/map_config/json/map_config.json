@@ -1,25 +1,4 @@
 {
-	"atlas_info_list": [
-		
-		{
-			"source_id": 1.0,
-			"tile_custom_data_list": [
-				{
-					"atlas_coords": {
-						"x": 0.0,
-						"y": 0.0
-					},
-					"layer_name": "interact",
-					"layer_position": 0.0,
-					"tile_event_data": {
-						"interacter_id": "ground_interacter_1",
-						"interacter_type": "ground_interacter",
-						"event_id": "game_custom_event_1"
-					}
-				}
-			]
-		}
-	],
 	"map_info_list": [
 		{
 			"map_id": "map1",
