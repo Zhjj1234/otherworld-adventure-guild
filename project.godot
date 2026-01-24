@@ -45,6 +45,7 @@ GameManager="*res://scenes/core/game_manager.gd"
 MapManager="*res://scenes/core/map_manager.gd"
 PlayerManager="*res://scenes/core/player_manager.gd"
 ConditionVerifier="*res://scenes/core/condition_verifier.gd"
+EventManager="*res://scenes/core/event_manager.tscn"
 InteracterManager="*res://scenes/core/interacter_manager.gd"
 
 [display]
@@ -58,7 +59,7 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/GnumarusStaticDataImporter/plugin.cfg", "res://addons/godot-sqlite/plugin.cfg", "res://addons/godot_object_serializer/plugin.cfg", "res://addons/resources_spreadsheet_view/plugin.cfg")
+enabled=PackedStringArray("res://addons/godot_object_serializer/plugin.cfg")
 
 [input]
 

@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://ctavhgap7a2fn"]
+
+[ext_resource type="Script" uid="uid://dfkoauyfdp45v" path="res://scenes/core/event_system/event_node.gd" id="1_uh37s"]
+[ext_resource type="Script" uid="uid://btm38ngfge1mx" path="res://scenes/event/on_reach_target/events/on_encounter_enemy.gd" id="2_uh37s"]
+[ext_resource type="Script" uid="uid://icb5ssdj5t58" path="res://scenes/event/common_events/none_game_event.gd" id="3_ucy4p"]
+
+[node name="OnReachTarget" type="Node" node_paths=PackedStringArray("bound_events")]
+script = ExtResource("1_uh37s")
+event_expression = "OnEncounterEnemy|NoneGameEvent"
+bound_events = [NodePath("NoneGameEvent"), NodePath("OnEncounterEnemy")]
+metadata/_custom_type_script = "uid://dfkoauyfdp45v"
+
+[node name="NoneGameEvent" type="Node" parent="."]
+script = ExtResource("3_ucy4p")
+event_name = &"NoneGameEvent"
+weight = 9.0
+metadata/_custom_type_script = "uid://icb5ssdj5t58"
+
+[node name="OnEncounterEnemy" type="Node" parent="."]
+script = ExtResource("2_uh37s")
+event_name = &"OnEncounterEnemy"
+metadata/_custom_type_script = "uid://btm38ngfge1mx"

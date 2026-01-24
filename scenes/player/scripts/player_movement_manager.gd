@@ -1,6 +1,7 @@
 extends Node2D
 
 class_name PlayerMovementManager
+@onready var test: Label = $"../CanvasLayer/Test"
 
 #* 玩家数据变量，存储从游戏数据管理器获取的玩家信息
 # TODO 这里需要保存
@@ -11,13 +12,13 @@ var _player_data
 @onready var player_core: PlayerCore = %PlayerCore
 
 #* 玩家移动速度常量，单位：格子/秒
-const PLAYER_SPEED: float = 1 / 0.125
+const PLAYER_SPEED: float = 1 / 0.2
 const MOVE_STEP: int = 30
 
 #* 移动状态枚举
 enum MOVE_STATUS {
 	MOVING, # * 正在移动
-	STOP # * 停止状态
+	STOP, # * 停止状态
 }
 enum INPUT_DIR {
 	NONE,
@@ -33,11 +34,24 @@ enum INPUT_DIR {
 # signal button_coords_changed(path: Array, passable_path: Array)
 signal move_status_changed(status: MOVE_STATUS)
 signal player_movement_manager_registered(player_movement_manager: PlayerMovementManager)
+#signal reach_end_target
 
 #* 目标位置坐标
 var _target_position: Vector2 = Vector2.ZERO
 #* 当前位置坐标
 var _current_position: Vector2 = Vector2.ZERO
+var can_input_new_target: bool = true:
+	get:
+		return can_input_new_target
+	set(value):
+		if can_input_new_target != value:
+			can_input_new_target = value
+			if test != null:
+				if can_input_new_target:
+					test.text = "YES"
+				else:
+					test.text = "NO"
+
 #* 移动状态变量
 # var _move_status: MOVE_STATUS = MOVE_STATUS.STOP
 var input_dir: INPUT_DIR = INPUT_DIR.NONE:
@@ -54,7 +68,12 @@ var move_status: MOVE_STATUS = MOVE_STATUS.STOP:
 	set(status):
 		if status != move_status:
 			move_status = status
-			move_status_changed.emit(status)
+			# if test!= null:
+			# 	if move_status == MOVE_STATUS.MOVING:
+			# 		test.text = "MOVING"
+			# 	else:
+			# 		test.text = "STOP"
+			# move_status_changed.emit(status)
 
 #*var _is_move_interrupted: bool = false
 var _final_position: Vector2i = Vector2i.ZERO
@@ -76,7 +95,8 @@ func _process(delta: float) -> void:
 	player_ui_mamager.set_real_position(_current_position)
 
 func _handle_movement_input():
-	if input_dir != INPUT_DIR.NONE and move_status == MOVE_STATUS.STOP:
+	if input_dir != INPUT_DIR.NONE and can_input_new_target:# and move_status == MOVE_STATUS.STOP:
+		can_input_new_target = false
 		if input_dir == INPUT_DIR.UP:
 			move_to(_current_position + Vector2(0, -1))
 		if input_dir == INPUT_DIR.DOWN:
@@ -93,7 +113,8 @@ func _update_position(delta: float):
 	if move_status == MOVE_STATUS.MOVING:
 		#* 向目标位置移动
 		_current_position = _current_position.move_toward(_target_position, PLAYER_SPEED * delta)
-		if _current_position == _target_position:
+		# if _current_position == _target_position:
+		if _current_position.is_equal_approx(_target_position):
 			#* 到达目标位置，停止移动
 			move_status = MOVE_STATUS.STOP
 			#* 触发到达目标位置事件
@@ -107,9 +128,8 @@ func _update_position(delta: float):
 #*   move_to(Vector2i(5, 3))  #* 移动到网格坐标(5,3)
 func move_to(coords: Vector2i):
 	#* 如果当前正在移动，则等待到达目标后再执行新的移动指令
-	if move_status == MOVE_STATUS.MOVING:
-		await EventBus.cell_interacted
-		
+	#if move_status == MOVE_STATUS.MOVING:
+		#await EventBus.reach_target
 	#* 使用A*算法寻找从当前位置到目标位置的路径
 	#* 参数说明：
 	#* - _current_position: 当前位置
@@ -118,8 +138,9 @@ func move_to(coords: Vector2i):
 	#* - true: 是否允许对角线移动
 	var path = _get_passable_path(_current_position, coords)
 	if path.size() == 1:
+		_reach_final_target(false)
 		return
-	print("📝 总移动路径: ", path)
+	DebugPrint.print_simple("📝 总移动路径: {}".format(path), get_script().resource_path, Color.GREEN)
 	#* 保存最终目标位置，用于检测路径是否仍然有效
 	_final_position = path.back()
 	#* 循环处理路径中的每个点，直到到达终点
@@ -127,36 +148,52 @@ func move_to(coords: Vector2i):
 	while path.size() > 1:
 		#* 检查最终目标位置是否发生变化，如果变化则终止当前移动
 		if _final_position != path.back():
+			_reach_final_target(false)
 			return
 		#* 设置移动状态为移动中
 		move_status = MOVE_STATUS.MOVING
 		#* 设置下一个目标位置为路径中的第二个点
 		_target_position = path[1]
-		print("🗺️  移动路径: ", _current_position, " → ", _target_position)
+		DebugPrint.print_simple("🗺️  移动路径: {0} → {1}".format([_current_position, _target_position]), get_script().resource_path, Color.GREEN)
 		#* 等待到达当前目标点的信号
+		#await EventBus.reach_target
 		var is_interacted = await EventBus.cell_interacted
 		if is_interacted:
 			#* 如果和格子发生了交互，则中断当前移动
-			print("🛑 已在 ", _current_position, " 发生了交互，中断移动")
-			move_status = MOVE_STATUS.STOP
+			DebugPrint.print_simple("🛑 已在 {0} 发生了交互，中断移动".format([_current_position]), get_script().resource_path, Color.GREEN)
+			#move_status = MOVE_STATUS.STOP
 			path.clear()
+			#reach_end_target.emit()
+			_reach_final_target(true)
 			return
 		#* 到达目标点后，移除路径中的第一个点，继续处理剩余路径
 		path.pop_front()
+	_reach_final_target(true)
+	
+func _reach_final_target(is_moved: bool):
+	if is_moved:	
+		can_input_new_target = true
+		DebugPrint.print_simple("🏁  已到达最终目标: {0} ✅".format([_final_position]), get_script().resource_path, Color.GREEN)
+	else:
+		can_input_new_target = true
+		DebugPrint.print_simple("未成功移动", get_script().resource_path, Color.GREEN)
 
 #* 到达目标位置时的回调函数
 func _on_reach_target():
 	GameDataManager.set_player_current_position(_current_position)
-	print("🏁  已到达终点: ", _current_position, " ✅")
+	DebugPrint.print_simple("已到达: {0} ✅".format([_current_position]), get_script().resource_path, Color.GREEN)
 	#* 发出到达目标位置信号
 	EventBus.reach_target.emit(_current_position)
 
 
 #* 玩家输入管理器点击网格的回调函数
 func _on_player_input_manager_grid_clicked(grid_pos: Vector2i) -> void:
-	if move_status == MOVE_STATUS.MOVING:
-		return
-	move_to(grid_pos)
+	if can_input_new_target:
+	#if move_status == MOVE_STATUS.MOVING:
+		#return
+		can_input_new_target = false
+		move_to(grid_pos)
+		
 
 #* 设置玩家位置
 func _set_player_position(coords: Vector2i) -> void:

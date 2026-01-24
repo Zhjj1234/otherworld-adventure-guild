@@ -30,7 +30,7 @@ func change_scene(scene_id: String) -> void:
 	
 	# 4. 更新内部状态 (唯一真相)
 	_current_scene_data = target_scene_data
-	get_tree().call_deferred("change_scene_to_file", _current_scene_data.game_scene_scene_path)
+	get_tree().call_deferred("change_scene_to_file", _current_scene_data.game_scene_path)
 	
 	await get_tree().scene_changed
 	# 5. 执行场景切换操作

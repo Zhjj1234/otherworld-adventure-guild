@@ -1,6 +1,7 @@
-class_name TestEventA extends BaseEvent
+extends BaseEvent
+class_name OnEncounterEnemy
 
 func _execute() -> StringName:
-	print("TestEventA 执行")
+	print("[",name, "]execute")
 	await get_tree().create_timer(2).timeout
 	return "INTERACTED"

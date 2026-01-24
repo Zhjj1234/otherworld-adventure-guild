@@ -32,5 +32,11 @@ script = ExtResource("3_snmcg")
 scale = Vector2(1.3333334, 1.3333334)
 zoom = Vector2(4, 4)
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Test" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+
 [connection signal="grid_clicked" from="PlayerInputManager" to="PlayerMovementManager" method="_on_player_input_manager_grid_clicked"]
 [connection signal="grid_moved" from="PlayerInputManager" to="PlayerMovementManager" method="_on_player_input_manager_grid_moved"]

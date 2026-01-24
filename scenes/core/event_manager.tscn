@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://ceoalllg7ydug"]
+
+[ext_resource type="Script" uid="uid://c47dui8rdld6a" path="res://scenes/core/event_manager.gd" id="1_krn8w"]
+[ext_resource type="PackedScene" uid="uid://ctavhgap7a2fn" path="res://scenes/event/on_reach_target/on_reach_target.tscn" id="2_hqvvo"]
+
+[node name="EventManager" type="Node2D" node_paths=PackedStringArray("game_event_dictionary")]
+script = ExtResource("1_krn8w")
+game_event_dictionary = {
+"on_reach_target": NodePath("OnReachTarget")
+}
+
+[node name="OnReachTarget" parent="." instance=ExtResource("2_hqvvo")]

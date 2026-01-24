@@ -8,7 +8,7 @@ class_name EventFlowController
 #* @return 下一个EventNode实例，如果没有则返回null
 func set_next_node_by_result(current_node: EventNode, result_map: Dictionary) -> EventNode:
 	# 获取当前节点的执行结果
-	var result = current_node.get_execution_result()
+	var result = await current_node.get_execution_result()
 	var final_result = result["result"]
 	
 	# 根据结果映射获取下一个节点
@@ -27,12 +27,12 @@ func set_next_node_by_result(current_node: EventNode, result_map: Dictionary) ->
 		next_node = next_node_ref
 	else:
 		# 无效类型
-		print("无效的下一个节点引用类型: %s" % typeof(next_node_ref))
+		DebugPrint.print_simple("无效的下一个节点引用类型: {0}".format([typeof(next_node_ref)]), get_script().resource_path)
 		return null
 	
 	# 检查是否是EventNode实例
 	if not next_node is EventNode:
-		print("下一个节点不是EventNode实例: %s" % next_node)
+		DebugPrint.print_simple("下一个节点不是EventNode实例: {0}".format([next_node]), get_script().resource_path)
 		return null
 	
 	return next_node

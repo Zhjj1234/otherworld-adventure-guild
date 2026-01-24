@@ -52,45 +52,46 @@ func _get_configuration_warnings() -> PackedStringArray:
 #* 获取执行结果
 #* @return 执行结果字典，包含执行的事件列表和最终状态
 func get_execution_result() -> Dictionary:
-	print("=== EventNode执行开始 ===")
+	DebugPrint.print_simple("=== EventNode执行开始 ===", get_script().resource_path)
 	
 	# 每次执行前重新构建事件字典，确保最新
 	_rebuild_event_dict()
 	
-	print("事件表达式: ", event_expression)
-	print("事件字典大小: ", _event_dict.size())
-	print("事件字典键: ", _event_dict.keys())
+	DebugPrint.print_simple("事件表达式: {0}".format([event_expression]), get_script().resource_path)
+	DebugPrint.print_simple("事件字典大小: {0}".format([_event_dict.size()]), get_script().resource_path)
+	DebugPrint.print_simple("事件字典键: {}".format(_event_dict.keys()), get_script().resource_path)
 	
 	# 重置所有事件状态
 	for event in _event_dict.values():
-		print("重置事件: %s" % event.event_name)
+		DebugPrint.print_simple("重置事件: %s" % event.event_name, get_script().resource_path)
 		event.reset()
 	
 	# 解析并执行事件表达式
 	var executed_events = await EventParserExecutor.parse_and_execute(event_expression, _event_dict)
 	
-	print("执行的事件数量: ", executed_events.size())
-	print("执行的事件列表: ", executed_events)
+	DebugPrint.print_simple("执行的事件数量: {0}".format([executed_events.size()]), get_script().resource_path)
+	DebugPrint.print_simple("执行的事件列表: {}".format(executed_events), get_script().resource_path)
 	
 	# 计算最终结果
 	var final_result: StringName = "NONE"
 	for event in _event_dict.values():
-		print("事件 %s 的触发状态: %s, 结果: %s" % [event.event_name, event.is_triggered, event.result])
+		DebugPrint.print_simple("事件 {0} 的触发状态: {1}, 结果: {2}".format([event.event_name, event.is_triggered, event.result]), get_script().resource_path)
+		pass
 	
 	# 修复：使用最后一个执行的事件结果作为最终结果
 	if not executed_events.is_empty():
 		var last_event_name = executed_events[-1]
 		if last_event_name in _event_dict:
 			final_result = _event_dict[last_event_name].result
-			print("使用最后一个执行事件 %s 的结果: %s" % [last_event_name, final_result])
+			DebugPrint.print_simple("使用最后一个执行事件 {0} 的结果: {1}".format([last_event_name, final_result]), get_script().resource_path)
 	
 	var result = {
 		"events": executed_events,
 		"result": final_result
 	}
 	
-	print("最终执行结果: %s" % result)
-	print("=== EventNode执行结束 ===")
+	DebugPrint.print_simple("最终执行结果: {0}".format([result]), get_script().resource_path)
+	DebugPrint.print_simple("=== EventNode执行结束 ===", get_script().resource_path)
 	
 	return result
 

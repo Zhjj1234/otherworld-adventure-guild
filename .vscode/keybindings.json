@@ -3,5 +3,10 @@
         "key": "ctrl+alt+c",
         "command": "workbench.files.action.collapseExplorerFolders",
         "when": "explorerViewletVisible"
+    },
+    {
+        "key": "f5",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Godot: Run Project"
     }
 ]

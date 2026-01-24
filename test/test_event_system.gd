@@ -1,6 +1,4 @@
-#* 测试事件系统的脚本
-class_name TestEventSystem extends Label
-
+extends Node
 
 #* 测试事件系统
 func _ready() -> void:
@@ -10,7 +8,7 @@ func _ready() -> void:
 	#print("创建的事件B名称: %s" % event_b.event_name)
 	
 	# 创建EventNode节点
-	var event_node:EventNode = $EventNode
+	var event_node:EventNode = $OnReachTarget
 	## 打印调试信息
 	#print("事件表达式: %s" % event_node.event_expression)
 	#print("绑定事件数量: %d" % event_node.bound_events.size())
