@@ -1,6 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://bk6uyqw3806k1"]
-
-[ext_resource type="Script" uid="uid://bec0scaknrt67" path="res://test/test_path_matcher.gd" id="1_vkfki"]
+[gd_scene format=3 uid="uid://bk6uyqw3806k1"]
 
 [node name="TestResource" type="Node2D"]
 
@@ -18,4 +16,3 @@ custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Level 4"
-script = ExtResource("1_vkfki")

@@ -24,14 +24,9 @@ func get_map_info_by_id(map_id: String) -> MapInfo:
 func get_item_config() -> ItemConfig:
 	return _item_config
 
-func get_normal_item_by_id(item_id: String) -> NormalItem:
-	for item_key in _item_config.normal_item_list.keys():
-		if item_key.item_id == item_id:
-			return _item_config.normal_item_list[item_key]
-	return null
-
-func get_special_item_by_id(item_id: String) -> SpecialItem:
-	for item_key in _item_config.special_item_list.keys():
-		if item_key.item_id == item_id:
-			return _item_config.special_item_list[item_key]
+## 根据item_id获取物品
+func get_item_by_id(item_id: StringName) -> ItemData:
+	if _item_config.item_data_list.has(item_id):
+		return _item_config.item_data_list[item_id].item_data
+	push_warning("item_id: {0} not found".format([item_id]))
 	return null

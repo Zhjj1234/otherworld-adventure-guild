@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid="uid://cv5f6o437iftd"]
+
+[ext_resource type="Script" uid="uid://cdwidryqrcwb2" path="res://scenes/core/inventory_system/test/test_draggable_grid.gd" id="1_test"]
+[ext_resource type="Script" uid="uid://cc6jiid10bqep" path="res://scenes/core/inventory_system/draggable_grid.gd" id="2_grid"]
+
+[node name="TestDraggableGrid" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_test")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="ButtonContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="AddSlotButton" type="Button" parent="VBoxContainer/ButtonContainer"]
+layout_mode = 2
+text = "添加槽位"
+
+[node name="ClearButton" type="Button" parent="VBoxContainer/ButtonContainer"]
+layout_mode = 2
+text = "清空所有"
+
+[node name="InfoLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 14
+text = "信息"
+
+[node name="DraggableGrid" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+script = ExtResource("2_grid")
