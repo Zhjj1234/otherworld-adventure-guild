@@ -18,6 +18,40 @@
 4. **灵活扩展**：支持任意大小的网格和多尺寸物体放置
 5. **清晰的API**：提供直观易用的方法，简化开发者使用
 
+## 架构设计原则
+
+### 核心原则：一个 GridSystem 实例 = 一个逻辑网格空间
+
+**重要概念：**
+- **GridSystem** 是纯逻辑层，只管理数据和规则，不涉及任何视图渲染
+- **一个 GridSystem 实例可以管理多个区域（GridRegion）**，这些区域共享同一个数据空间
+- 区域可以重叠，重叠部分的标识用 "&" 连接（如 "a&b"）
+- 物体放置时，所有覆盖的格子必须属于同一个区域标识（不能跨区域放置）
+
+### 典型使用场景
+
+**场景：DraggableGrid（UI控件）**
+```
+DraggableGrid (一个实例)
+├── GridSystem (一个实例，管理所有区域的数据)
+├── GridRegionView (区域视图1，只负责显示)
+├── GridRegionView (区域视图2，只负责显示)
+└── SlotContainer (Slot容器，包含所有可拖拽物品)
+```
+
+**关键点：**
+- 一个 DraggableGrid 只对应一个 GridSystem 实例
+- 多个区域视图共享同一个 GridSystem，实现统一的数据管理
+- Slot（可拖拽物品）可以在不同区域之间移动，因为它们共享同一个 GridSystem
+- 区域视图只负责显示，不处理交互（mouse_filter=IGNORE）
+- Slot 容器负责所有交互逻辑（mouse_filter=PASS）
+
+### 设计层次
+
+1. **逻辑层（GridSystem）**：纯数据管理，与视图完全解耦
+2. **视图层（GridRegionView）**：负责区域的可视化显示
+3. **交互层（DraggableGrid、DraggableSlot）**：处理用户交互和拖拽逻辑
+
 ## 核心类
 
 ### 1. GridPos

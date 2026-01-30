@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cv5f6o437iftd"]
 
-[ext_resource type="Script" uid="uid://cdwidryqrcwb2" path="res://scenes/core/inventory_system/test/test_draggable_grid.gd" id="1_test"]
-[ext_resource type="Script" uid="uid://cc6jiid10bqep" path="res://scenes/core/inventory_system/draggable_grid.gd" id="2_grid"]
+[ext_resource type="Script" uid="uid://cdwidryqrcwb2" path="res://scenes/core/inventory_system/draggable_grid/test/test_draggable_grid.gd" id="1_test"]
+[ext_resource type="Script" uid="uid://cc6jiid10bqep" path="res://scenes/core/inventory_system/draggable_grid/draggable_grid.gd" id="2_grid"]
 
 [node name="TestDraggableGrid" type="Control"]
 layout_mode = 3
@@ -39,8 +39,13 @@ size_flags_vertical = 0
 theme_override_font_sizes/font_size = 14
 text = "信息"
 
-[node name="DraggableGrid" type="Control" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DraggableGrid" type="Control" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 1
 script = ExtResource("2_grid")

@@ -30,13 +30,15 @@ func _ready():
 	
 	# 测试3: 创建PlacementResult对象
 	print("\n3. 测试PlacementResult对象创建:")
-	var result1 = PlacementResult.new(true, rect1, [pos1])
-	print("   PlacementResult.new(true, rect1, [pos1]) =", result1)
+	var result1 = PlacementResult.new(true, rect1, [pos1], "test_region")
+	print("   PlacementResult.new(true, rect1, [pos1], 'test_region') =", result1)
 	
 	# 测试4: 创建GridSystem对象并测试核心功能
 	print("\n4. 测试GridSystem对象创建和核心功能:")
-	var grid = GridSystem.new(Vector2i(5, 5))
-	print("   创建了5x5的网格")
+	var grid = GridSystem.new()
+	# 添加一个5x5的区域，标识为"main"
+	grid.add_region(GridRegion.new(GridPos.new(0, 0), 5, 5, "main"))
+	print("   创建了网格系统，添加了5x5的区域（标识: main）")
 	
 	# 测试can_place方法
 	print("\n5. 测试can_place方法:")
@@ -46,8 +48,9 @@ func _ready():
 	
 	# 测试place方法
 	print("\n6. 测试place方法:")
-	var place_result = grid.place(test_rect, "测试物体")
+	var place_result = grid.place(test_rect, "测试物体", can_place_result.region_id)
 	print("   放置2x2物体:", place_result)
+	print("   区域标识:", can_place_result.region_id)
 	
 	# 测试is_cell_empty方法
 	print("\n7. 测试is_cell_empty方法:")
@@ -77,19 +80,63 @@ func _ready():
 	
 	# 测试clear方法
 	print("\n12. 测试clear方法:")
-	grid.place(test_rect, "测试物体")
+	var clear_test_result = grid.can_place(test_rect)
+	if clear_test_result.is_valid:
+		grid.place(test_rect, "测试物体", clear_test_result.region_id)
 	grid.clear()
 	print("   清空网格后，检查(0,0)是否为空:", grid.is_cell_empty(GridPos.new(0, 0)))
 	
-	# 测试13: 测试find_nearest_valid_position方法
-	print("\n13. 测试find_nearest_valid_position方法:")
+	# 测试13: 测试can_place_or_find_nearby方法
+	print("\n13. 测试can_place_or_find_nearby方法:")
 	# 创建一个新的10x10网格用于测试
-	var test_grid = GridSystem.new(Vector2i(10, 10))
+	var test_grid = GridSystem.new()
+	test_grid.add_region(GridRegion.new(GridPos.new(0, 0), 10, 10, "test"))
 	
 	# 在中心位置放置一个2x2的物体，阻塞中心区域
 	var center_rect = GridRect.new(GridPos.new(4, 4), 2, 2)
-	test_grid.place(center_rect, "中心物体")
+	var center_result = test_grid.can_place(center_rect)
+	test_grid.place(center_rect, "中心物体", center_result.region_id)
 	print("   在(4,4)位置放置了一个2x2的物体")
+	
+	# 测试在中心附近查找可放置位置
+	var nearby_result = test_grid.can_place_or_find_nearby(GridPos.new(4, 4), 2, 2, 2)
+	print("   在(4,4)附近查找2x2可放置位置:", nearby_result.is_valid)
+	if nearby_result.is_valid:
+		print("   找到的位置:", nearby_result.rect.pos, "区域标识:", nearby_result.region_id)
+	
+	# 测试14: 测试多区域功能
+	print("\n14. 测试多区域功能:")
+	var multi_grid = GridSystem.new()
+	# 添加区域A：从(0,0)开始，5x5大小
+	multi_grid.add_region(GridRegion.new(GridPos.new(0, 0), 5, 5, "region_a"))
+	# 添加区域B：从(3,3)开始，5x5大小（与区域A有交集）
+	multi_grid.add_region(GridRegion.new(GridPos.new(3, 3), 5, 5, "region_b"))
+	print("   添加了区域A: (0,0) 5x5, 标识: region_a")
+	print("   添加了区域B: (3,3) 5x5, 标识: region_b（与区域A有交集）")
+	
+	# 测试在区域A中放置
+	var rect_a = GridRect.new(GridPos.new(0, 0), 2, 2)
+	var result_a = multi_grid.can_place(rect_a)
+	print("   在(0,0)放置2x2物体（区域A）:", result_a.is_valid, "区域标识:", result_a.region_id)
+	
+	# 测试在区域B中放置
+	var rect_b = GridRect.new(GridPos.new(6, 6), 2, 2)
+	var result_b = multi_grid.can_place(rect_b)
+	print("   在(6,6)放置2x2物体（区域B）:", result_b.is_valid, "区域标识:", result_b.region_id)
+	
+	# 测试在交集区域放置（应该失败，因为标识不一致）
+	var rect_intersect = GridRect.new(GridPos.new(3, 3), 3, 3)
+	var result_intersect = multi_grid.can_place(rect_intersect)
+	print("   在(3,3)放置3x3物体（跨区域A和B）:", result_intersect.is_valid)
+	if not result_intersect.is_valid:
+		print("   预期失败：因为跨区域，标识不一致")
+	
+	# 测试获取格子的区域标识
+	print("\n15. 测试获取格子的区域标识:")
+	print("   格子(0,0)的区域标识:", multi_grid.get_cell_region_id(GridPos.new(0, 0)))
+	print("   格子(3,3)的区域标识:", multi_grid.get_cell_region_id(GridPos.new(3, 3)))
+	print("   格子(6,6)的区域标识:", multi_grid.get_cell_region_id(GridPos.new(6, 6)))
+	print("   格子(10,10)的区域标识（不在任何区域）:", multi_grid.get_cell_region_id(GridPos.new(10, 10)))
 	
 	print("\n=== 网格系统测试完成 ===")
 	

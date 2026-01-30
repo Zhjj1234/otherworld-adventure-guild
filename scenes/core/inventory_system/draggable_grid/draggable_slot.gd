@@ -16,8 +16,11 @@ signal slot_clicked(slot: DraggableSlot)
 #* 槽在表格中的位置（格子坐标）
 var grid_position: Vector2i = Vector2i(0, 0)
 
-#* 槽的大小（占几格，宽x高）
+#* 槽的原始大小（占几格，宽x高），不随旋转改变
 var slot_size: Vector2i = Vector2i(1, 1)
+
+#* 旋转状态：0=0°，1=90°，2=180°，3=270°（顺时针）
+var rotation_index: int = 0
 
 #* 是否正在拖拽
 var is_dragging: bool = false
@@ -46,6 +49,7 @@ func _ready() -> void:
 	background.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(background)
 	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	z_index = 10
 	
 	# 创建标签
 	label = Label.new()
@@ -71,16 +75,15 @@ func _on_gui_input(input_event: InputEvent) -> void:
 				is_dragging = true
 				drag_offset = input_event.position
 				
-				# 计算点击位置相对于槽位的格子偏移量
-				# 获取父节点 DraggableGrid 来获取单元格大小和间距
+				# 计算点击位置相对于槽位的格子偏移量（按当前有效尺寸）
 				var grid = get_parent().get_parent()
 				if grid is DraggableGrid:
 					var cell_total_size = grid.cell_size + grid.cell_spacing
+					var eff = get_effective_size()
 					click_grid_offset.x = int(input_event.position.x / cell_total_size)
 					click_grid_offset.y = int(input_event.position.y / cell_total_size)
-					# 确保偏移量在槽位大小范围内
-					click_grid_offset.x = clamp(click_grid_offset.x, 0, slot_size.x - 1)
-					click_grid_offset.y = clamp(click_grid_offset.y, 0, slot_size.y - 1)
+					click_grid_offset.x = clamp(click_grid_offset.x, 0, eff.x - 1)
+					click_grid_offset.y = clamp(click_grid_offset.y, 0, eff.y - 1)
 				
 				slot_clicked.emit(self)
 				# 提升到最上层
@@ -97,12 +100,28 @@ func _on_gui_input(input_event: InputEvent) -> void:
 		var new_global_pos = get_global_mouse_position() - drag_offset
 		global_position = new_global_pos
 
+#* 获取旋转后的占位大小（用于放置/碰撞判断）
+#* 0°/180° 为 slot_size，90°/270° 为 (height, width)
+func get_effective_size() -> Vector2i:
+	if rotation_index % 2 == 0:
+		return slot_size
+	return Vector2i(slot_size.y, slot_size.x)
+
+#* 顺时针旋转 90°
+func rotate_clockwise_90() -> void:
+	rotation_index = (rotation_index + 1) % 4
+	_update_rotation_label()
+
+func _update_rotation_label() -> void:
+	if label:
+		var eff = get_effective_size()
+		label.text = "%dx%d" % [eff.x, eff.y]
+
 #* 设置槽位大小
 #* @param new_size 新大小（宽x高，占几格）
 func set_slot_size(new_size: Vector2i) -> void:
 	slot_size = new_size
-	if label:
-		label.text = "%dx%d" % [new_size.x, new_size.y]
+	_update_rotation_label()
 
 #* 设置槽位颜色
 #* @param new_color 新颜色
