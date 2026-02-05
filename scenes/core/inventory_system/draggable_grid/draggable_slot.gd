@@ -4,13 +4,9 @@ extends Control
 class_name DraggableSlot
 
 #* 当槽位被拖拽时发出
-#* @param slot 被拖拽的槽位对象
-#* @param new_position 新位置（格子坐标）
-#* @param click_offset 点击位置相对于槽位左上角的格子偏移
 signal slot_dragged(slot: DraggableSlot, new_position: Vector2i, click_offset: Vector2i)
 
 #* 当槽位被点击时发出
-#* @param slot 被点击的槽位对象
 signal slot_clicked(slot: DraggableSlot)
 
 #* 槽在表格中的位置（格子坐标）
@@ -73,27 +69,32 @@ func _on_gui_input(input_event: InputEvent) -> void:
 			if input_event.pressed:
 				# 开始拖拽
 				is_dragging = true
-				drag_offset = input_event.position
 				
-				# 计算点击位置相对于槽位的格子偏移量（按当前有效尺寸）
-				var grid = get_parent().get_parent()
-				if grid is DraggableGrid:
-					var cell_total_size = grid.cell_size + grid.cell_spacing
-					var eff = get_effective_size()
-					click_grid_offset.x = int(input_event.position.x / cell_total_size)
-					click_grid_offset.y = int(input_event.position.y / cell_total_size)
-					click_grid_offset.x = clamp(click_grid_offset.x, 0, eff.x - 1)
-					click_grid_offset.y = clamp(click_grid_offset.y, 0, eff.y - 1)
+				# 抓取点设为整个物品的几何中心
+				drag_offset = size / 2.0
+				
+				# 计算逻辑上的格子偏移（用于辅助计算）
+				var eff = get_effective_size()
+				click_grid_offset.x = int(floor(eff.x / 2.0))
+				click_grid_offset.y = int(floor(eff.y / 2.0))
+				
+				# 点击日志（鼠标位置与偏移）
+				DebugPrint.print_simple(
+					"CLICK slot=%s mouse_global=%s local=%s drag_offset=%s click_offset=%s" % [
+						str(self),
+						str(get_global_mouse_position()),
+						str(input_event.position),
+						str(drag_offset),
+						str(click_grid_offset)
+					],
+					"res://scenes/core/inventory_system/draggable_grid/draggable_slot.gd"
+				)
 				
 				slot_clicked.emit(self)
 				# 提升到最上层
 				get_parent().move_child(self, get_parent().get_child_count() - 1)
-			else:
-				# 结束拖拽
-				if is_dragging:
-					is_dragging = false
-					# 通知父节点更新位置，传递点击偏移量
-					slot_dragged.emit(self, grid_position, click_grid_offset)
+				z_index = 100  # 设置更高的 z_index 确保在最上层
+			# 左键松开不再结束拖拽，由“再次左键点击”在 grid 侧统一放置
 	
 	elif input_event is InputEventMouseMotion and is_dragging:
 		# 拖拽中，实时更新位置

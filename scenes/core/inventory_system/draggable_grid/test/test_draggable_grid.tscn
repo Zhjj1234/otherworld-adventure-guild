@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cv5f6o437iftd"]
 
 [ext_resource type="Script" uid="uid://cdwidryqrcwb2" path="res://scenes/core/inventory_system/draggable_grid/test/test_draggable_grid.gd" id="1_test"]
-[ext_resource type="Script" uid="uid://cc6jiid10bqep" path="res://scenes/core/inventory_system/draggable_grid/draggable_grid.gd" id="2_grid"]
+[ext_resource type="Script" uid="uid://ldd1yrx00aby" path="res://scenes/core/inventory_system/draggable_grid/controller_draggable_grid.gd" id="2_swgas"]
 
 [node name="TestDraggableGrid" type="Control"]
 layout_mode = 3
@@ -29,6 +29,10 @@ theme_override_constants/separation = 10
 layout_mode = 2
 text = "添加槽位"
 
+[node name="RegionSelect" type="OptionButton" parent="VBoxContainer/ButtonContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
 [node name="ClearButton" type="Button" parent="VBoxContainer/ButtonContainer"]
 layout_mode = 2
 text = "清空所有"
@@ -48,4 +52,4 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 1
-script = ExtResource("2_grid")
+script = ExtResource("2_swgas")

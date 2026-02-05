@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="BasePackData" load_steps=2 format=3 uid="uid://dvqalmmxir1wi"]
+
+[ext_resource type="Script" uid="uid://djjuiab15ouhm" path="res://scenes/core/inventory_system/inventory/pack/base/base_pack_data.gd" id="1_16amx"]
+
+[resource]
+script = ExtResource("1_16amx")
+pack_name = "character_pack"
+pack_type = 4
+metadata/_custom_type_script = "uid://djjuiab15ouhm"

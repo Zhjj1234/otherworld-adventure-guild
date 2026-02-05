@@ -56,28 +56,18 @@ func _init(p_region: GridRegion, p_cell_size: int = 50, p_cell_spacing: int = 2)
 func _ready() -> void:
 	_update_size_and_position()
 
-#* 更新视图的大小和位置
+#* 更新视图的大小（不设位置）
+#* 本 View 的 position 即该区域的视觉基准点（左上角），由父节点 DraggableGrid 通过 set_region_base_point 或 add_region 时设置
 func _update_size_and_position() -> void:
 	if region == null:
 		return
 	
-	# 计算区域在屏幕上的位置和大小
-	var width_px = region.width * (cell_size + cell_spacing) + cell_spacing
-	var height_px = region.height * (cell_size + cell_spacing) + cell_spacing
+	var width_px: int = region.width * (cell_size + cell_spacing) + cell_spacing
+	var height_px: int = region.height * (cell_size + cell_spacing) + cell_spacing
 	
-	# 设置位置（基于区域的起始格子位置）
-	position = Vector2(
-		region.pos.x * (cell_size + cell_spacing),
-		region.pos.y * (cell_size + cell_spacing)
-	)
-	
-	# 设置大小
 	custom_minimum_size = Vector2(width_px, height_px)
 	size = Vector2(width_px, height_px)
-	
-	# 启用裁剪
 	clip_contents = true
-	
 	queue_redraw()
 
 #* 设置区域数据
@@ -105,8 +95,8 @@ func _draw() -> void:
 					grid_x * (cell_size + cell_spacing) + cell_spacing,
 					grid_y * (cell_size + cell_spacing) + cell_spacing
 				)
-				var size = Vector2(cell_size, cell_size)
-				var rect = Rect2(pos, size)
+				var cell_rect_size = Vector2(cell_size, cell_size)
+				var rect = Rect2(pos, cell_rect_size)
 				if cell_background_texture:
 					# 平铺贴图到格子矩形
 					draw_texture_rect(cell_background_texture, rect, true)

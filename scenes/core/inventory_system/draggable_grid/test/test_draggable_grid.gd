@@ -8,6 +8,9 @@ extends Control
 #* 添加槽位按钮
 @onready var add_slot_button: Button = $VBoxContainer/ButtonContainer/AddSlotButton
 
+#* 区域选择下拉
+@onready var region_select: OptionButton = $VBoxContainer/ButtonContainer/RegionSelect
+
 #* 清空所有槽位按钮
 @onready var clear_button: Button = $VBoxContainer/ButtonContainer/ClearButton
 
@@ -42,6 +45,8 @@ func _ready() -> void:
 			draggable_grid.add_region(GridRegion.new(GridPos.new(0, 0), 5, 6, "region_left"))
 			# 区域2：右侧（与区域1相邻）
 			draggable_grid.add_region(GridRegion.new(GridPos.new(6, 0), 5, 6, "region_right"))
+			draggable_grid.set_region_base_point("region_right", Vector2(600,0))
+		_update_region_select()
 	
 	# 更新初始信息
 	update_info()
@@ -56,9 +61,16 @@ func _on_add_slot_button_pressed() -> void:
 	
 	# 随机颜色
 	var slot_color = slot_colors[randi() % slot_colors.size()]
+
+	# 读取选择的区域
+	var selected_region_id := ""
+	if region_select and region_select.selected >= 0:
+		selected_region_id = region_select.get_item_metadata(region_select.selected)
+		if selected_region_id == "__all__":
+			selected_region_id = ""
 	
 	# 添加槽位
-	var new_slot = draggable_grid.add_slot(slot_size, Vector2i(-1, -1), slot_color)
+	var new_slot = draggable_grid.add_slot(slot_size, Vector2i(-1, -1), slot_color, selected_region_id)
 	if new_slot:
 		new_slot.set_label_text("%dx%d" % [slot_size.x, slot_size.y])
 		update_info()
@@ -83,13 +95,13 @@ func _on_slot_added(added_slot: DraggableSlot, slot_position: Vector2i, region_i
 #* @param new_slot_position 移动后的位置（格子坐标）
 #* @param old_region_id 旧区域标识
 #* @param new_region_id 新区域标识
-func _on_slot_moved(moved_slot: DraggableSlot, old_slot_position: Vector2i, new_slot_position: Vector2i, old_region_id: String, new_region_id: String) -> void:
+func _on_slot_moved(_moved_slot: DraggableSlot, old_slot_position: Vector2i, new_slot_position: Vector2i, old_region_id: String, new_region_id: String) -> void:
 	update_info()
 	print("槽位已移动: ", old_slot_position, " -> ", new_slot_position, " 区域: ", old_region_id, " -> ", new_region_id)
 
 #* 处理槽位移除事件
 #* @param removed_slot 被移除的槽位对象
-func _on_slot_removed(removed_slot: DraggableSlot) -> void:
+func _on_slot_removed(_removed_slot: DraggableSlot) -> void:
 	update_info()
 	print("槽位已移除")
 
@@ -100,4 +112,17 @@ func update_info() -> void:
 		var region_count = 0
 		if draggable_grid.grid_system:
 			region_count = draggable_grid.grid_system.regions.size()
-		info_label.text = "槽位数: %d\n区域数: %d\n操作说明:\n• 左键点击并拖拽槽位移动\n• 可以在两个区域之间拖拽\n• 点击按钮添加新槽位" % [slot_count, region_count]
+		info_label.text = "槽位数: %d\n区域数: %d\n操作说明:\n• 左键点击并拖拽槽位移动\n• 可以在两个区域之间拖拽\n• 选择区域后点击按钮添加新槽位" % [slot_count, region_count]
+
+#* 更新区域下拉列表
+func _update_region_select() -> void:
+	if not region_select:
+		return
+	region_select.clear()
+	region_select.add_item("全部区域")
+	region_select.set_item_metadata(0, "__all__")
+	if draggable_grid and draggable_grid.grid_system:
+		for region in draggable_grid.grid_system.regions:
+			region_select.add_item(region.region_id)
+			region_select.set_item_metadata(region_select.item_count - 1, region.region_id)
+	region_select.select(0)

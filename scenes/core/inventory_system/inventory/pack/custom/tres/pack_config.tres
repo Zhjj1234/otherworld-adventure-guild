@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="PackConfig" load_steps=5 format=3 uid="uid://ce1k1vlw4ftub"]
+
+[ext_resource type="Script" uid="uid://djjuiab15ouhm" path="res://scenes/core/inventory_system/inventory/pack/base/base_pack_data.gd" id="1_0n35r"]
+[ext_resource type="Script" uid="uid://cyv48xj41b5ii" path="res://scenes/core/inventory_system/inventory/pack/base/pack_config.gd" id="2_6pcdw"]
+[ext_resource type="Resource" uid="uid://o76w0vejvr4a" path="res://scenes/core/inventory_system/inventory/pack/custom/tres/shop_pack.tres" id="2_al5i8"]
+[ext_resource type="Resource" uid="uid://dvqalmmxir1wi" path="res://scenes/core/inventory_system/inventory/pack/custom/tres/character_pack.tres" id="3_ckte5"]
+
+[resource]
+script = ExtResource("2_6pcdw")
+base_pack_data_list = Dictionary[String, ExtResource("1_0n35r")]({
+"charactor_pack": ExtResource("3_ckte5"),
+"shop_pack": ExtResource("2_al5i8")
+})
+metadata/_custom_type_script = "uid://cyv48xj41b5ii"

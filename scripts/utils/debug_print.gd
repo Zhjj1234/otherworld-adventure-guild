@@ -3,10 +3,13 @@
 extends RefCounted
 class_name DebugPrint
 ## 调试总开关，false 时所有调试输出都会被静默
-static var debug_enabled: bool = true
+static var debug_enabled: bool = false
+## 忽略路径列表，用于忽略某些路径的调试打印
 static var caller_path_ignol_list: Array[String] = [
-	"res://scenes/core/event_system/*"
+	"res://scenes/core/event_system/*",
+	"res://scenes/core/inventory_system/*"
 ]
+
 enum IS_PRINT {
 	TRUE,
 	FALSE

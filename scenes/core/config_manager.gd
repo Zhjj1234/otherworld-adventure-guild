@@ -25,7 +25,7 @@ func get_item_config() -> ItemConfig:
 	return _item_config
 
 ## 根据item_id获取物品
-func get_item_by_id(item_id: StringName) -> ItemData:
+func get_item_by_id(item_id: StringName) -> BaseItemData:
 	if _item_config.item_data_list.has(item_id):
 		return _item_config.item_data_list[item_id].item_data
 	push_warning("item_id: {0} not found".format([item_id]))

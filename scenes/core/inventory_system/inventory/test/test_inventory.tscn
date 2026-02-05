@@ -1,0 +1,77 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfu1ylp01sq7g"]
+
+[ext_resource type="Script" uid="uid://cykri8r8pomxf" path="res://scenes/core/inventory_system/inventory/test/test_inventory.gd" id="1_test_inventory"]
+[ext_resource type="Script" uid="uid://c4hg02axvdmmt" path="res://scenes/core/inventory_system/inventory/inventory_grid.gd" id="2_inventory_grid"]
+
+[node name="TestInventory" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_test_inventory")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="ButtonContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="AddItemButton" type="Button" parent="VBoxContainer/ButtonContainer"]
+layout_mode = 2
+text = "添加物品"
+
+[node name="RemoveItemButton" type="Button" parent="VBoxContainer/ButtonContainer"]
+layout_mode = 2
+text = "移除物品"
+
+[node name="ClearButton" type="Button" parent="VBoxContainer/ButtonContainer"]
+layout_mode = 2
+text = "清空所有"
+
+[node name="ViewToggleContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ToggleBackpack1" type="CheckBox" parent="VBoxContainer/ViewToggleContainer"]
+layout_mode = 2
+button_pressed = true
+text = "背包1"
+
+[node name="ToggleBackpack2" type="CheckBox" parent="VBoxContainer/ViewToggleContainer"]
+layout_mode = 2
+button_pressed = true
+text = "背包2"
+
+[node name="ToggleBackpack3" type="CheckBox" parent="VBoxContainer/ViewToggleContainer"]
+layout_mode = 2
+button_pressed = true
+text = "背包3"
+
+[node name="ToggleBackpack4" type="CheckBox" parent="VBoxContainer/ViewToggleContainer"]
+layout_mode = 2
+button_pressed = true
+text = "背包4"
+
+[node name="InfoLabel" type="Label" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="InventoryGrid" type="Control" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 1
+script = ExtResource("2_inventory_grid")
